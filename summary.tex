@@ -1,0 +1,1931 @@
+\documentclass[25pt]{sciposter}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm}
+
+\usepackage[dvipsnames,usenames,svgnames,table]{xcolor} 
+\usepackage{lipsum}
+\usepackage{epsfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{wrapfig}
+\usepackage{gensymb}
+\usepackage{tocloft}
+\usepackage{empheq}
+
+\usepackage{pgfplots}
+\pgfplotsset{width=11cm,compat=1.9}
+
+
+% for nice tableas
+\usepackage{booktabs}
+
+\graphicspath{ {img/} }
+
+\geometry{
+	landscape,
+	a1paper,
+	left=5mm,
+	right=50mm,
+	top=5mm,
+	bottom=50mm,
+}
+\usepackage{array}   % for \newcolumntype macro
+\newcolumntype{L}{>{$}m{5.5cm}<{$}} % math-mode version of "l" column type
+
+%BEGIN LISTINGDEF
+
+
+
+
+
+\newcommand*\widefbox[1]{\fbox{\hspace{2em}#1\hspace{2em}}}
+\newcommand{\limm}{\lim\limits_{n \to \infty}}
+\newcommand{\limx}[1]{\lim\limits_{x \to #1}}
+\newlength\dlf  % Define a new measure, dlf
+\newcommand\alignedbox[2]{
+	% Argument #1 = before & if there were no box (lhs)
+	% Argument #2 = after & if there were no box (rhs)
+	&  % Alignment sign of the line
+	{
+		\settowidth\dlf{$\displaystyle #1$}
+		% The width of \dlf is the width of the lhs, with a displaystyle font
+		\addtolength\dlf{\fboxsep+\fboxrule}
+		% Add to it the distance to the box, and the width of the line of the box
+		\hspace{-\dlf}
+		% Move everything dlf units to the left, so that & #1 #2 is aligned under #1 & #2
+		\boxed{#1 #2}
+		% Put a box around lhs and rhs
+	}
+}
+\usepackage{graphicx,url}
+
+%BEGIN TITLE
+\title{\huge{Randomized Algorithms and Probabilistic Methods}}
+
+\author{\large{David Zollikofer}}
+%END TITLE
+
+\usepackage{palatino}
+%\usepackage{eulervm}
+\usepackage{mathpazo}
+% begin custom commands
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\W}{\mathcal{W}}
+\newcommand{\Nor}{\mathcal{N}}
+\newcommand{\U}{\mathcal{U}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\E}{\operatorname{E}}
+%\newcommand{\exp}{\operatorname{exp}}
+
+\newcommand{\mc}{\mathcal}
+
+% some shortcuts
+\newcommand{\ds}{\displaystyle}
+\newcommand{\arr}{\rightarrow}
+\newcommand{\nop}[1]{}
+\renewcommand{\hat}{\widehat}
+
+% stuff for integrals
+\newcommand{\intl}{\int\limits}
+\newcommand{\rmd}{\mathrm{d}}
+
+
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\usepackage[framemethod=TikZ]{mdframed}
+\newenvironment{method}[1]{\begin{mdframed}[backgroundcolor=blue!10,innertopmargin=15pt, innerbottommargin=15pt,nobreak=true]
+		\textbf{#1 }
+	}
+	{ 
+	\end{mdframed}
+}
+
+\newenvironment{important}{\begin{mdframed}[backgroundcolor=red!50,innertopmargin=15pt, innerbottommargin=15pt, nobreak=true]
+		\Large
+	}
+	{ 
+	\end{mdframed}
+}
+
+\newenvironment{lemma}{\begin{mdframed}[backgroundcolor=gray!50,innertopmargin=15pt, innerbottommargin=15pt, nobreak=true]
+		\Large
+	}
+	{ 
+	\end{mdframed}
+}
+
+\newenvironment{thm}[1]{\begin{mdframed}[backgroundcolor=pink!20,innertopmargin=15pt, innerbottommargin=15pt, nobreak=true]
+		\textbf{#1 }
+	}
+	{ 
+	\end{mdframed}
+}
+
+
+
+\newenvironment{defn}[1]{\begin{mdframed}[backgroundcolor=PineGreen!20,innertopmargin=15pt, innerbottommargin=15pt, nobreak=true]
+		\textbf{#1 }
+	}
+	{ 
+	\end{mdframed}
+}
+
+
+\usepackage{todonotes}
+\newcommand{\TODO}[1]{\todo[inline]{\Large TODO:  #1}}
+
+
+
+
+
+\DeclarePairedDelimiter\abs{\left|}{\right|}%
+
+
+
+\setlength\abovedisplayskip{0pt}
+
+\renewcommand{\familydefault}{\rmdefault}
+
+% end custom commands
+
+\begin{document}
+	
+	
+	
+	
+	
+	\maketitle
+	
+	
+	
+	\begin{multicols}{3}
+		
+		\section{Linearity of Expectation}
+		TODO
+		
+		\section{The Inequalities of Markov and Chebychev}
+		
+		\begin{method}{Markov's Inequality}
+			For $X$ a non-negative random variable, we have $\forall t > 0$
+			\begin{align*}
+				\Pr[X \geq t ]\leq \frac{\E[X]}{t}
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Chebychev's Inequality}
+		For random variable $X$ and $\forall t > 0$ we have 
+		\begin{align*}
+			\Pr[|X-\E[X]| \geq  t] \leq \frac{\Var[X]}{t^2}
+		\end{align*} 
+	\end{method}
+
+\textbf{Example (Calculating the Median)} 
+
+Assume we have an array $a[n]$. We randomly sample $\lceil n^{\frac{3}{4}} \rceil $ elements into array $b$. TODO
+
+ 
+
+		\section{First \& Second Moment Method}
+		
+		\begin{method}{First Moment Method}
+			Let $(X_n)_n$ be a sequence of random variables whih take non-negative integer values. Then 
+			\begin{equation}
+				\
+			\end{equation}
+		\end{method}
+	
+		
+		
+		\section{Chernoff Bounds}
+		
+		\textbf{Example (Routing in the Hypercube)} Every vertex $v$ chooses a random vertex $\sigma(v_i)$ to which the vertex sends using bit fixing. After $4d$ rounds the random vertex sends to original destination. 
+		
+		\section{Inequalities of Azuma and Jansson}
+	
+		\begin{defn}{Effect}
+The effect of the $i$-th coordinate is given by $\max |X(\omega) - X(\omega')| $ for $\omega \in \Omega$
+		\end{defn}
+	
+			\begin{method}{Azuma's Inequality}
+				For $(\Omega, Pr)$ a product of the probability spaces $(\Omega_1, Pr_1) \cdots (\Omega_N, Pr_N)$ and $X;\Omega \to \R$ a random variable whose $i$-th coordinates effect is bound by $c_i$ we have
+				\begin{align*}
+					\Pr[X\geq \E[X] + t] &\leq e^{-\frac{t^2}{2\sum_{i=1}^{N} c_i ^2}}\\
+					\Pr[X\leq \E[X] - t] &\leq e^{-\frac{t^2}{2\sum_{i=1}^{N} c_i ^2}}
+				\end{align*}
+			\end{method}	
+				
+			\begin{method}{Janson's Inequality}
+TODO
+			\end{method}
+		
+		\section{Varia}
+		\begin{defn}{Largest Independent Set}
+Any vertex either is in the indepdendet set or has a neighbor in it. But no two neighboring vertixes may be in the independent set.
+		\end{defn}
+		
+		\newpage
+		
+		\section{Wahrscheinlichkeitsrechnung}
+		
+		\begin{method}{Wahrscheinlichkeitsraum}
+			Wir definieren $(\Omega, \mathcal{F}, P)$ einen Wahrscheinlichkeitsraum, wobei $\Omega$ die Ereignismenge aus Elementarereignissen ist, $\F \subseteq 2^\Omega$ eine $\sigma$-Algebra und $P$ ein Wahrscheinlichkeitsmass.
+		\end{method}
+		
+		\begin{method}{$\sigma$-Algebra}
+			Wir nennen ein Mengensystem $\F\subseteq 2^\Omega$ eine $\sigma$-Algebra falls:
+			\begin{itemize}
+				\item $\Omega \in \F$
+				\item $\forall A \in \F : A^c \in \F$
+				\item für jede Folge $(A_n)_{n\in\N}$ mit $A_n \in \F$ so ist auch $\bigcup_{n=1}^\infty A_n \in \F $
+			\end{itemize}
+			
+			Sicherlich ist somit zum Beispiel die Potenzmenge $2^\Omega$ eine $\sigma$-Algebra.
+		\end{method}
+		
+		\begin{method}{Wahrscheinlichkeitsmass} Wir definieren eine Abbildung $P: \F \to [0,1]$. Wir nennen $P[A]\in[0,1]$ die Wahrscheinlichkeit, dass $A$ eintritt. Die geforderten Kolmogorov Axiome sind:
+			\begin{itemize}
+				\item $P[A]\geq 0 \ \forall A \in \F$
+				\item $P[\Omega] = 1$
+				\item $P\left[ \bigcup_{i=1}^{\infty} A_i \right] = \sum_{i=1}^{\infty}P[A_i]$, sofern die $A_i \in \F$ paarweise disjunkt sind ($A_i \cap A_k = \varnothing$ wenn $i \neq k$) 
+			\end{itemize}
+		\end{method}
+		
+		\textbf{Beispiele (Formale Definitionen von Wahrscheinlichkeitsräumen)}
+		
+		
+		
+		\subsection*{Grundlegende Prinzipien}
+		
+		
+		
+		\begin{thm}{Additivität disjunkter Ereignisse}
+			Seien $A_1, \ldots, A_n$ paarweise disjunkte Ereignisse, so gilt:
+			
+			\begin{align*}
+				P[A_1\cup \cdots \cup A_n] &= P[A_1] + \cdots + P[A_n]
+			\end{align*}
+			
+		\end{thm}
+		
+		\begin{thm}{Inklusion und Exklusionsprinzip}
+			\begin{align*}
+				P[A\cup B] =& P[A] + P[B] - P[A\cap B]\\
+				P[A\cup B\cup C] =& P[A] + P[B] + P[C] - P[A\cap B] - P[B\cap C] \\
+				&- P[B\cap C] + P[A\cap B \cap C]
+			\end{align*}
+		\end{thm}
+		
+		
+		
+		\subsection*{Bedingte Wahrscheinlichkeit}
+		
+		\begin{method}{Bedingte Wahrscheinlichkeit}
+			Seien $A, B$ Ereignisse und $P[A] > 0$. Die bedingte Wahrscheinlichkeit von $B$ unter der Bedingung, dass $A$ eintritt, (gegeben $A$) ist definiert als:
+			
+			\begin{align*}
+				P[B|A] &= \frac{P[B \cap A]}{P[A]}
+			\end{align*}
+			
+		\end{method}
+		
+		\begin{thm}{Multiplikationsregel}
+			Seien $A_1,\ldots A_n$ Ereignisse mit $P[A_i]>0$ (div by $0$ Problem), dann gilt:
+			
+			\begin{align*}
+				&P[A_1 \cap A_2 \cap \cdots \cap A_n] = \\
+				&P[A_1] \cdot P[A_2 | A_1] \cdot P[A_3|A_1 \cap A_2] \cdot \ldots \cdot P[A_n | A_1 \cap \cdots \cap A_{n-1}]
+			\end{align*}
+		\end{thm}
+		
+		\begin{thm}{Satz der totalen Wahrscheinlichkeit}
+			Seien $B_1, \ldots B_n$ eine Zerlegung von $\Omega$ (d.h. $\bigcup_{i=1}^n B_i = \Omega$ und $B_i \cap B_j = \varnothing$ für $i\neq j$), so gilt für ein beliebiges Ereignis $A$:
+			
+			\begin{align*}
+				P[A] &= \sum_{i=1}^{n} P[A\cap B_i] = \sum_{i=1}^{n} P[A|B_i]\cdot P[B_i]
+			\end{align*}
+			
+			Insbesondere folgt daraus:
+			
+			\begin{align*}
+				P[A] &= P[A\cap B] + P[A \cap B^c] = P[A|B]\cdot P[B] + P[A|B^c]\cdot P[B^c]
+			\end{align*}
+		\end{thm}
+		
+		
+		\begin{thm}{Satz von Bayes}
+			Wenn $P[A],P[B].P[B^c]> 0$ so folgt:
+			
+			\begin{align*}
+				P[B|A] = \frac{P[A\cap B]}{P[A]} &= \frac{P[A|B]\cdot P[B]}{P[A|B]\cdot P[B] + P[A|B^c]\cdot P[B^c]}
+			\end{align*}
+			
+			respektive wenn $B_1, \ldots B_n$ eine Zerlegung von $\Omega$ mit $P[B_i]>0 \  \forall i$, dann gilt für ein Ereignis $A$ mit $P[A]>0$:
+			
+			\begin{align*}
+				P[B_k|A] = \frac{P[A\cap B_k]}{P[A]} &= \frac{P[A|B_k]\cdot P[B_k]}{\sum_{i=1}^{n} P[A|B_i] \cdot P[B_i] }
+			\end{align*}
+		\end{thm}
+		
+		
+		\subsection*{Unabhängigkeit}
+		
+		\begin{method}{Unabhängigkeit}
+			Wir nennen zwei Ereignisse $A$, $B$ unabhängig falls
+			
+			\begin{align*}
+				P[A\cap B] &= P[A] \cdot P[B]
+			\end{align*}
+			
+			Für $P[A] \neq 0$ gilt:
+			
+			\begin{align*}
+				\text{$A,B$ unabhängig} &\iff P[B|A] = P[B]
+			\end{align*}
+			
+			
+		\end{method}
+		
+		\begin{method}{Stochastische Unabhängigkeit}
+			Wir nennen $A_1,\cdots A_n$ (stochastisch) unabhängig, falls für alle Kombinationen von $A_i, \ldots A_j$ gilt dass
+			
+			\begin{align*}
+				P\left[\bigcap_{i=1}^{m} A_{k_i} \right] = \prod_{i=1}^{m}P[A_{k_i}]
+			\end{align*}
+			
+		\end{method}
+		
+		
+		\section{Diskrete Zufallsvariablen und Verteilungen}
+		
+		
+		
+		\begin{method}{Diskrete Zufallsvariable (ZV)}
+			Sei $(\Omega, \F, P)$ ein diskreter Wahrscheinlichkeitsraum.
+			
+			Wir nennen 
+			$$X:\Omega \to \W(X) = \{x_1,\ldots x_n\}\subseteq \R$$
+			eine Zufallsvariable. mit $\W(X)$ der Wertebereich.
+			
+			Zusätzlich definieren wir die \textit{Gewichtsfunktion} oder \textit{diskrete Dichte} von $X$ als 
+			$$p_X(x_k) = P[X = x_k] = P[\{ \omega | X(\omega) = x_k \}]$$
+			sowie auch die Verteilfunktion 
+			$$F_x(t) = P[X\leq t] = P[\{\omega | X(\omega) \leq t\}]$$
+			
+		\end{method}
+		
+		\subsection*{Verteilungen mehrerer Variablen}
+		
+		
+		\begin{method}{Gemeinsame Verteilfunktion}
+			Seien $X_1,\ldots X_n$ Zufallsvariablen. Die gemeinsame Verteilfunktion $F:\R^n \to [0,1]$ ist definiert durch
+			
+			\begin{align*}
+				(x_1,\ldots x_n)\mapsto F(x_1,\ldots x_n) &= P[X_1 \leq x_1, \ldots X_n \leq x_n]\\
+				&= \sum_{y_1 \leq x_1, \ldots, y_n \leq x_n} p(y_1,\ldots, y_n)
+			\end{align*}
+			
+			
+		\end{method}
+		
+		\begin{method}{Gemeinsame Verteilfunktion}
+			Seien $X,Y$ ZV, so gilt für $F_X : \R \to [0,1]$:
+			
+			\begin{align*}
+				F_X(x) &= P[X \leq x] = P[X \leq x , Y < \infty] = \lim\limits_{y\to\infty} F(x,y)
+			\end{align*}
+		\end{method}
+		
+		\begin{method}{Gewichtsfunktion der Randverteilung}
+			Wir definieren $p_X(x) : \W(X) \to [0,1]$ als die Gewichtsfunktion der Randverteilung von $X$ gegeben durch 
+			
+			\begin{align*}
+				p_X(x) &= P[X=x] = \sum_{y_i\in \W(Y)} p(x,y_i)
+			\end{align*}
+			
+		\end{method}
+		
+		
+		\begin{method}{Unabhängigkeit von Zufallsvariable}
+			Die ZV $X_1, \ldots X_n$ heissen unabhängig, gdw 
+			
+			\begin{align*}
+				F(x_1, \ldots, x_n) &= F_{X_1}(x_1) \cdots F_{X_n}(x_n) \quad \forall x_1,\ldots,x_n\\
+				&\text{ oder analog dazu}\\
+				p(x_1,\ldots, x_n) &= p_{X_1}(x_1)\cdots p_{X_1n}(x_n) \quad \forall x_1,\ldots,x_n
+			\end{align*}
+			
+			
+			
+			
+		\end{method}
+		
+		
+		
+		\subsection*{Bedingte Verteilungen}
+		
+		\begin{method}{Bedingte Verteilungen}
+			Seien $X$ und $Y$ Zufallsvariablen mit gemeinsamer Gewichtsfunktion $p(x,y)$. Die bedingte Gewichtsfunktion von $X$ gegeben, dass $Y = y$ ist definiert durch
+			
+			\begin{align*}
+				p_{X|Y} (x|y) := P[X=x | Y=y] = \frac{P[X=x, Y=y]}{P[Y=y]} = \frac{p(x,y)}{p_Y(y)}
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Bedingte Erwartung}
+			Die Erwartung von $Y$ gegeben, dass $X=x$ bereits eingetroffen ist, ist definiert durch:
+			\begin{align*}
+				\E[Y|X=x] &= \sum _{y}yP(Y=y\mid X=x)=\sum _{y}y{\frac {P(X=x,Y=y)}{P(X=x)}}\\
+				\E[Y|X=x] &= \int y\cdot  f_{Y|X=x}(y)\  dy = \int y\cdot  \frac{f_{X,Y}(x,y)}{f_{X=x}(y)} \ dy
+			\end{align*}
+		\end{method}
+		
+		
+		
+		\section{Wichige diskrete Verteilungen}
+		
+		\subsubsection*{Diskrete Gleichverteilung}
+		Die diskrete Gleichverteilung auf  $\W(X)=\{x_1,\ldots,x_n\}$ hat folgende Eigenschaften:
+		
+		\begin{align*}
+			p_X(x_k) &= P[X = x_k] = \frac{1}{N}
+		\end{align*}
+		
+		mit 
+		
+		\begin{align*}
+			\operatorname {E}[X]&={\frac  {1}{n}}\sum _{{i=1}}^{n}x_{i} & \operatorname {Var}[X]&={\frac  {1}{n}}\left(\sum _{{i=1}}^{n}x_{i}^{2}-{\frac  {1}{n}}\left(\sum _{{i=1}}^{n}x_{i}\right)^{2}\right)
+		\end{align*}
+		
+		\subsubsection*{Bernoulli Verteilung}
+		Wir machen ein einziges 0-1 Experiment mit Erfolgswahrscheinlichkeit $p$. Es gilt demnach $\W(X) = \{0,1\}$ mit 
+		
+		\begin{align*}
+			p_X(1) &= P[X=1] = p & 	p_X(0) &= P[X=0] = 1-p
+		\end{align*}
+		
+		Woraus folgt:
+		
+		\begin{align*}
+			\E[X] &= p & \Var[X] &= p(1-p)
+		\end{align*}
+		Wir schreiben dabei $X\sim {Be}(p)$
+		
+		\subsubsection*{Binomialverteilung}
+		Wir möchten gerne die Anzahl Erfolge bei $n$ unabhängigen 0-1 Experimenten mit Erfolgsparameter $p$ beschreiben. Wir schreiben $X \sim \operatorname{Bin}(n,p)$. Dabei ist $\W(X) = \{0,1,\ldots,n\}$ und 
+		
+		\begin{align*}
+			p_X(k) &= P[X=k] = {n \choose k} p^k (1-p)^{n-k}
+		\end{align*}
+		
+		sowie 
+		
+		\begin{align*}
+			\E[X] &= np & \Var[X] &= np(1-p)
+		\end{align*}
+		
+		
+		\subsubsection*{Geometrische Verteilung}
+		Wir betrachten eine unendliche Folge von unabhängigen 0-1 Experimenten mit Erfolgsparameter $p$. $X$ sei die Wartezeit auf den ersten Erfolg. Wir schreiben $X\sim\operatorname{Geom}(p)$ und haben:
+		
+		\begin{align*}
+			p_X(k) &= P[X=k] = p(1-p)^{k-1}
+		\end{align*}
+		\begin{align*}
+			\E[X] &= \frac{1}{p} & \Var[X] &= \frac{1-p}{p^2}
+		\end{align*}
+		
+		Für die geometrische Verteilung gilt auch eine Art Gedächtnislosigkeit: $P[X = n+k | X \geq n ] = P[X = k]$.
+		
+		\subsubsection*{Negativbinomiale Verteilung}
+		Wir betrachten eine unendliche Folge von unabhängigen 0-1 Experimenten mit Erfolgsparameter $p$. So sei $X$ die Wartezeit auf den $r$-ten Erfolg. Wir schreiben $X\sim \operatorname{NB(r,p)}$.
+		
+		\begin{align*}
+			P_X(k) &= P[X = k] = {k-1 \choose r-1} p^r(1-p)^{k-r}
+		\end{align*}
+		\begin{align*}
+			\E[X] &= \frac{r}{p} & \Var[X] &= \frac{r(1-p)}{p^2}
+		\end{align*}
+		
+		\subsubsection*{Hypergeometrische Verteilung}
+		In einer Urne seien $n$ Gegenstände, davon $r$ vom Typ 1 und $n-r$ vom Typ 2. Man
+		zieht ohne Zurücklegen $m$ der Gegenstände; die Zufallsvariable $X$ beschreibe die Anzahl
+		der Gegenstände vom Typ 1 in dieser Stichprobe vom Umfang $m$. Dann hat $X$ eine
+		hypergeometrische Verteilung mit Parametern $n,m,r$ mit $\W(X) = \{0, 1, \ldots, \min(m, r)\}$ sowie
+		
+		\begin{align*}
+			p_X(k) &= \frac{{r\choose k} {n-r \choose m-k}}{{n \choose m}}
+		\end{align*}
+		
+		\begin{align*}
+			\E[X] &= m\frac{r}{n} & \Var[X] &= m\frac{r}{n}\left(1-\frac{r}{n}\right) \frac{n-m}{n-1}
+		\end{align*}
+		
+		
+		
+		\subsubsection*{Poissonverteilung}
+		
+		Mit Parameter $\lambda>0$ auf $\W(X) = \N_0$ schreiben wir $X\sim {\operatorname{Pois}}(\lambda)$
+		
+		\begin{align*}
+			p_X(k) &= P[X = k] = e^{-\lambda} \frac{\lambda^k}{k!}
+		\end{align*}
+		
+		\begin{align*}
+			\E[X] &= \lambda & \Var[X] &= \lambda
+		\end{align*}
+		
+		
+		
+		
+		\section{Allgemeine Zufallsvariable}
+		
+		
+		
+		\begin{method}{Verteilungsfunktion}
+			Wir nennen $F_X : \R \to [0,1]$ mit 
+			
+			\begin{align*}
+				F_X (t) = P[X\leq t]:= P[\{\omega | X(\omega) \leq t\}]
+			\end{align*}
+			eine Verteilfunktion. Dies hat folgende Eigenschaften:
+			\begin{itemize}
+				\item $F_X$ ist monoton wachsend $F_X(s)\leq F_X(t)$ für $s\leq t$ und rechtsstetig $F_X(u) \to F_X(t)$ für $u \to t$.
+				\item $\lim\limits_{t\to-\infty} F_X(t) = 0$, $\lim\limits_{t\to + \infty} F_X(t) = 1$ 
+			\end{itemize}
+			umgekehrt ist jede Funktion mit diesen Eigenschaften eine Verteilungsfunktion $F_X$ einer Zufallsvariablen $X$.
+		\end{method}
+		
+		
+		\begin{method}{Wahrscheinlichkeitsmass}
+			Wir nennen $\mu_X(B) := P[X \in B]$ das Wahrscheinlichkeitsmass mit $\mu_X((-\infty,t]) = F_X(t)$
+		\end{method}
+		
+		\begin{method}{Dichtefunktion}
+			Falls $F_X(t) = \int_{-\infty}^t f_X(s) ds$ für $\forall t\in\R$ so nennt man $F_X(t)$ absolut stetig und $f_X(s)$ die Dichtefunktion. Mit folgenden Eigenschaften:
+			\begin{itemize}
+				\item $f_X \geq 0$ und $f_X = 0$ ausserhalb von $\W(X)$.
+				\item $\int_{-\infty}^\infty f_X(s) ds = 1$ folgt aus $\lim_{t \to -\infty}F_X(t) = 1$
+			\end{itemize}
+			
+			Umgekehrt kann man aus einer messbaren Funktion $f:\R\to[0,\infty)$ mit $\int_{-\infty}^\infty f(s)ds = 1$ eine Zufallsfariable $X$ konstruieren.
+		\end{method}
+		
+		
+		
+		\subsection*{Gemeinsame Verteilungen, unabhängige Zufallsvariablen}
+		
+		
+		\begin{method}{Gemeinsame Verteilungsfunktion}
+			Die gemeinsame Verteilfunktion von $n$ Zufallsvariablen $X_1,\ldots, X_n$ ist die Abbildung $F:\R^n \to [0,1]$ mit
+			
+			\begin{align*}
+				F(x_1,\ldots,x_n) &:= P[X_1 \leq x_1, \ldots , X_n \leq x_n]\\
+				F(x_1,\ldots,x_n) &:= \int_{-\infty}^{x_1}\cdots \int_{-\infty}^{x_n}f(t_1,\ldots,t_n)dt_n\ldots dt_1
+			\end{align*}
+			
+			dabei ist $f:\R^n \to [0,\infty)$ die gemeinsame Dichte für welche gilt:
+			\begin{itemize}
+				\item $f(x_1,\ldots,x_n)\geq 0$ und $=0$ ausserhalb von $\W(X_1,\ldots,X_n)$
+				\item $\int_{-\infty}^{\infty}\cdots \int_{-\infty}^{\infty}f(t_1,\ldots,t_n)dt_n\ldots dt_1 = 1$
+				\item $P[(X_1,\ldots X_n)\in A] = \int_{(x_1,\ldots,x_n)\in A}f(t_1,\ldots,t_n)dt_n\ldots dt_1$
+			\end{itemize} 
+		\end{method}
+		
+		\begin{method}{Randverteilung} Haben $X,Y$ die gemeinsame Dichtefunktion $F$, so ist die Funktion $F_X : \R \to [0,1]$ mit 
+			
+			\begin{align*}
+				F_X(x) := P[Y \leq y] = P[x\leq Y, Y < \infty] = \lim_{y \to \infty} F(x,y)
+			\end{align*}
+			die sogenannte Randverteilung von $X$.
+			
+			Falls die Dichte $f(x,y)$ existiert so gilt:
+			
+			\begin{align*}
+				f_X(x) &= \int_{-\infty}^{\infty}f(x,y) dy\\
+				f_X(x) &= \frac{d}{dx}F_X(x) = \frac{d}{dx}\lim_{y \to \infty} F(x,y)
+			\end{align*}
+			
+		\end{method}
+		
+		\textbf{Beispiel zusammengesetzter Zufallsvariablen}
+		
+		\begin{itemize}
+			\item $X = \min\{X_1,\ldots,X_n\}$, finde $f_X$
+			
+			Wir wissen $F_X(t) = P[X\leq t] = \prod_{i=1}^n P[X_k \leq t] = F(t)^n$. Da $f_X(t) = \frac{dF_X(t)}{dt}$ folgt $f_X(t) = n\cdot F(t)^{n-1} f(t)$.
+			
+			\item $X = \max\{X_1,\ldots,X_n\}$, finde $f_X$
+			
+			Wir wissen $F_X(t) = 1 - P[X>t] = 1 - P [X_1 > t, \ldots X_n > t] = 1 - (1 - F(t))^n$. Da $f_X(t) = \frac{dF_X(t)}{dt}$ folgt $f_X(t) = n(1-F(t))^{n-1}f(t)$.
+		\end{itemize}
+		
+		
+		\begin{thm}{Wahrscheinlichkeiten mehrerer Variablen}
+			Angenommen wir möchten $P[X > 2Y]$ ausrechnen so berechnen wir:
+			
+			\begin{align*}
+				P[X>2Y] &= \int \int_A f_{X,Y} (x,y) dx dy
+			\end{align*}
+			
+			Mit $A = \{(x,y)\in\R^2 : x > 2y\}$
+		\end{thm}
+		
+		
+		
+		\begin{method}{Unabhängigkeit von Zufallsvariablen} Die Zufallsvariablen $X_1,\ldots, X_n$ heissen unabhängig, falls gilt
+			
+			\begin{align*}
+				F(x_1,\ldots x_n) &= F_{X_1}(x_1) \cdots F_{X_n}(x_n) \quad \text{respektive:}\\
+				f(x_1,\ldots x_n) &= f_{X_1}(x_1) \cdots f_{X_n}(x_n) \quad \forall x_1,\ldots x_n
+			\end{align*}
+		\end{method}
+		
+		
+		\subsection*{Transformation von stetigen Zufallsvariablen}
+		\begin{itemize}
+			\item Angenommen wir haben die Dichte $f(x,y)$ gegeben und wir suchen die Verteilfunktion und Dichte von $Z = X + Y$. Wir haben $F_Z(z) = P[Z \leq z] = P[X+Y\leq z]$. Nun definieren wir $A_z = \{(x,y)\in\R^2|x+y\leq z\}$. Es gilt nun:
+			
+			\begin{align*}
+				F_Z(z) = P[(X,Y)\in A_z] &= \int_{A_z} \int f(x,y) dy dx\\
+				&= \int_{-\infty}^{\infty} \int_{-\infty}^{z-x} f(x,y) dy dx
+			\end{align*}
+			
+			Sowie $f_Z(z) = \frac{d}{dz} F_Z(z)$.
+			
+			
+			\item Sei $U = \frac{X}{X+Y}$ mit $X,Y\sim Exp(\lambda)$; finde $f_U, F_U$:
+			
+			Es gilt $F_U(u) = P[U \leq u] = P[\frac{X}{X+Y}\leq u]$ woraus $x(u^{-1} -1)\leq y$ folgt.
+			Somit ist das Integral $F_U = \lambda^2 \int_{0}^{\infty} e^{-\lambda x} \int_{x(u^{-1} -1)}^{\infty} e^{-\lambda y} dy dx = u$.
+			
+			Da nun $0 \leq U = \frac{X}{X+Y} \leq 1$ folgt $f_U(u) = 1_{u\in[0,1]}$
+			
+			\item Sei nun zusätzlich noch $V=X+Y$ und wir möchten $f_{U,V}$ berechnen, so gilt
+			
+			$$f_{U,V} = \lambda^2 \int_{0}^{\infty} e^{-\lambda x} \left(\int_{0}^{\infty} 1_{\{\frac{x}{x+y}\leq u, x+y \leq v\}} e^{-\lambda y}dy \right) dx$$
+			
+		\end{itemize}
+		
+		
+		
+		
+		
+		\subsection*{Wichtige stetige Verteilungen}
+		
+		\subsubsection*{Gleichverteilung}
+		Die Gleichverteilung auf $[a,b]$ mit $\W(X)=[a,b]$, genannt $X\sim\U(a,b)$:
+		
+		\begin{align*}
+			f_X(t) &= \begin{cases}
+				\frac{1}{b-a} \ \text{ für } a \leq t \leq b\\
+				0 \ \text{ sonst}
+			\end{cases}
+			& 
+			F_X(t) &= \begin{cases}
+				0 \ \text{ für } t<a \\
+				\frac{t-a}{b-a} \ \text{ für } a \leq t \leq b\\
+				1 \ \text{ für } t > b
+			\end{cases}
+		\end{align*}
+		
+		
+		\begin{align*}
+			\E[X] &= {\displaystyle\int \limits _{-\infty }^{\infty }xf(x)\,dx={\frac {1}{b-a}}\int \limits _{a}^{b}x\cdot 1\,dx={\frac {1}{2}}{\frac {b^{2}-a^{2}}{b-a}}={\frac {a+b}{2}}} \\ \Var[X] &={\frac {1}{b-a}}\int \limits _{a}^{b}{x^{2}\cdot 1\,dx}-\left({\frac {a+b}{2}}\right)^{2}={\frac {1}{3}}{\frac {b^{3}-a^{3}}{b-a}}-\left({\frac {a+b}{2}}\right)^{2}
+		\end{align*}
+		
+		
+		
+		
+		\subsubsection*{Exponentialverteilung}
+		Die Exponentialverteilung mit Parameter $\lambda > 0$ mit $\W(X)=[0,\infty)$, genannt $X\sim Exp(\lambda)$:
+		
+		\begin{align*}
+			f_X(t) &= \begin{cases}
+				\lambda \cdot e^{-\lambda t} \ \text{ für } t \geq 0\\
+				0 \text{ für } t < 0
+			\end{cases}
+			& 
+			F_X(t) &= \begin{cases}
+				1-e^{-\lambda t} \text{ für } t\geq 0\\
+				0 \ \text{ für } t < 0
+			\end{cases}
+		\end{align*}
+		
+		\begin{align*}
+			\E[X]&=\int \limits _{0}^{\infty }\lambda x{\mathrm  {e}}^{{-\lambda x}}\,{\mathrm  {d}}x={\frac  {1}{\lambda }}\\
+			\Var[X] &= \frac{1}{\lambda^2}
+		\end{align*}
+		
+		Die Exponentialverteilung ist Gedächtnislos: 
+		$$P[X > t+s| X > s] = P[X > t]$$
+		
+		\textbf{Beispiel (Casinogewinn)} Wenn $Z\sim Exp(\lambda)$ dürfen wir $c$ wählen so dass wenn $Z > c$ gewinnen wir $c$. Berechne maximal erwartete Auszahlung: $G(c) = \E[c1_{\{Z > c\}}] = cP[Z > c] = ce^{-\lambda c}$. Nun maximiere $c$.
+		
+		\subsubsection*{Normalverteilung}
+		Die Normalverteilung mit Parameter $\sigma^2$, der Varianz, $\mu$, dem Erwartungswert sowie $\W(X) = \R$. Man schreibt $X\sim \Nor(\mu,\sigma^2)$
+		
+		\begin{align*}
+			f_X(t) &= \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(t-\mu)^2}{2\sigma^2}}
+		\end{align*}
+		
+		Problem: Das Integral ist mühsam. Trick Wir plotten die Dichte $\varphi(t)$ sowie Verteilfunktion $\Phi(t)$ von $\Nor(0,1)$ und benutzen dass $\frac{X-\mu}{\sigma} \sim \Nor(0,1)$.
+		\begin{mdframed}
+			Es gilt $\Phi(-x) = 1 - \Phi(x)$ sowie ${\Phi^{-1}(x) = -\Phi^{-1}(1-x)}$
+		\end{mdframed}
+		
+		
+		Zudem gilt für $X\sim N(\mu_X,\sigma^2_X)$, $Y \sim N(\mu_Y, \sigma^2_Y)$ mit $Z=X+Y$ dass $Z \sim N(\mu_X+\mu_Y, \sigma^2_X + \sigma^2_Y)$.
+		
+		\begin{mdframed}
+			Ist $X \sim \mathcal{N}(\mu,\sigma^2)$ so gilt für $Z={\frac  {X-\mu }{\sigma }}$ dass ${\displaystyle Z  \sim {\mathcal {N}}(0,1)}$
+		\end{mdframed}
+		
+		
+		\subsubsection*{Paretoverteilung}
+		Die Paretoverteilte Variable $X\sim\operatorname{Par}(x_0,\alpha)$ mit 
+		
+		\begin{align*}
+			f_X(t) &= \begin{cases}
+				\frac{\alpha x_0 ^\alpha}{x^{\alpha+1}} \ \text{ für } x \geq x_0 \\
+				0 \text{ sonst}
+			\end{cases}
+			& 
+			F_X(t) &= \begin{cases}
+				1-\left(\frac{x}{x_0}\right)^{-\alpha} \text{ für } x \geq x_0\\
+				0 \ \text{ sonst}
+			\end{cases}
+		\end{align*}
+		
+		\begin{align*}
+			\E[X] &= \begin{cases}
+				x_0 \frac{\alpha}{\alpha - 1}\ \text{ für } \alpha > 1 \\
+				\infty \ \text{ sonst}
+			\end{cases}
+			& 
+			\Var[X] &= \begin{cases}
+				\frac{x_0 ^2 \alpha}{(\alpha-1)^2(\alpha-2)} \text{ für } \alpha > 2\\
+				\infty \ \text{ für } 1 < \alpha \leq 2
+			\end{cases}
+		\end{align*}
+		
+		Diese Verteilung modelliert zum Beispiel die Krankenkosten eines Versicherten pro Jahr.
+		
+		
+		\subsubsection*{Bekannte Verteilungen}
+		\begin{align*}
+			X_i \overset{iid}{\sim} \mc N(\mu, \sigma^2) \; \Rightarrow & \; S_n \sim \mc N(n \cdot \mu, n \cdot \sigma^2)
+		\end{align*}
+		\subsubsection*{Erwartungswerte und Varianzen}
+		\begin{align*}
+			\E(S_n) &= n \cdot \E(X_1) & \E(\overline{X}_n) &= \E(X_1) \\
+			\Var(S_n) &= n \cdot \Var(X_1) & \Var(\overline{X}_n) &= \tfrac{1}{n} \Var(X_1) \\
+			\sigma_{S_n} &= \sqrt{n} \cdot \sigma_{X_1} & \sigma_{\overline{X}_n} &= \tfrac{1}{\sqrt{n}} \cdot \sigma_{X_1}
+		\end{align*}
+		
+		
+		
+		\section{Kennzahlen von Zufallsvariablen}
+		
+		
+		\begin{method}{Erwartungswert}
+			\begin{itemize}
+				\item Diskret
+				\begin{align*}
+					\mu = \E[X] &= \sum_{x_i \in \mathcal{W}(X)} x_i \cdot P(X=x_i) = \sum_{x_i \in \mathcal{W}(X)} x_i \cdot p(x_i) \\
+					\E(g(X)) &= \sum_{x_i \in \mathcal{W}(X)} g(x_i) \cdot P(X=x_i)
+				\end{align*}
+				\item Stetig:
+				\begin{align*}
+					\mu = \E[X] &= \int_{-\infty}^{\infty} x \cdot f_X(x) \; \rmd x
+				\end{align*}
+				
+				\item Allgemein:
+				\begin{align*}
+					\E(aX+b) &= a\E[X] + b\\
+					\E \left( \sum_{i=1}^n X_i \right) &= \sum_{i=1}^n \E(X_i)
+				\end{align*}	
+				Sind $X_i$, $X$ und $Y$ unabhängig, so gilt
+				\begin{align*}
+					\E(XY) &= \E[X]\E(Y)\\
+					\E \left( \prod X_i \right) &= \prod \E(X_i)\\
+				\end{align*}
+				
+			\end{itemize}
+			
+			
+		\end{method}
+		
+		\begin{method}{Bedingte Erwartung}
+			Die Erwartung von $Y$ gegeben, dass $X=x$ bereits eingetroffen ist, ist definiert durch:
+			\begin{align*}
+				\E[Y|X=x] &= \sum _{y}yP(Y=y\mid X=x)=\sum _{y}y{\frac {P(X=x,Y=y)}{P(X=x)}}\\
+				\E[Y|X=x] &= \int y\cdot  f_{Y|X=x}(y)\  dy = \int y\cdot  \frac{f_{X,Y}(x,y)}{f_{X=x}(y)} \ dy
+			\end{align*}
+		\end{method}
+		
+		
+		\textbf{Beispiel (nicht konvergenter Erwartungswert):}
+		Sei $X$ eine Cauchy-verteilte Zufallsvariable, mit $\W(X) = \R$ und
+		
+		\begin{align*}
+			f_X(t) &= \frac{1}{\pi} \frac{1}{1+t^2}
+			& 
+			F_X(t) &= \frac{1}{2} + \frac{1}{\pi}\arctan(t)
+		\end{align*}
+		
+		Dann gilt:
+		
+		\begin{align*}
+			\int_{-\infty}^\infty |x|f_X(x) dx &= \lim\limits_{b\to\infty} \frac{1}{\pi}\log(1+b^2) = +\infty
+		\end{align*}
+		
+		
+		
+		
+		\begin{method}{Varianz}
+			\begin{itemize}
+				\item Diskret
+				\begin{align*}
+					\Var[X] &= \sum_{x_i \in \mathcal{W}(X)} (x_i - \mu)^2 \cdot P(X=x_i) \\
+					\Var[X] &= \E((X - \mu)^2) = \E(X^2) - \E[X]^2
+				\end{align*}
+				\item Stetig:
+				\begin{align*}
+					\Var[X] =  \E{[X^2]} - \E{[X]}^2  &= \int_{-\infty}^{\infty} (x - \E[X])^2 \cdot f_X(x) \; \rmd x
+				\end{align*}
+				
+				\item Allgemein:
+				\begin{align*}
+					\Var(aX+b) &= a^2 \cdot \Var[X]\\
+					\Var[X] &= E(X^2)-E[X]^2\\
+					\Var[X] &= E((X-\mu)^2)\\
+					\Var(aX+bY+c) &= a^2\Var[X] +b^2\Var(Y) + 2 ab \operatorname{Cov}(X,Y)
+				\end{align*}
+				
+				
+				Für unkorrelierte Zufallsvariablen $X_i$ gilt
+				\begin{align*}
+					\Var \left( \sum_{i=1}^n X_i \right) &= \sum_{i=1}^n \Var(X_i)\\
+					\Var (\overline X_n) &= \frac{\sigma^2}{n}
+				\end{align*}
+				
+				
+				
+			\end{itemize}
+		\end{method}
+		
+		
+		
+		\begin{method}{Standardabweichung}
+			\begin{align*}
+				&\sigma = \sqrt{\Var[X]} \\
+				&\sigma_{aX+b} = |a|\cdot \sigma_X
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{$\alpha$-Quantile, Median}
+			\begin{align*}
+				\text{Sei} \quad& 0<\alpha<1   \\
+				P(X \leq q(a))=\alpha \qquad &\implies \qquad F_X(q(a))=\alpha \\
+				\phantom{\quad P(X \leq q(a))=\alpha \qquad}& \implies \qquad q(a)=F_X^{-1}(a)\\
+				\text{Median:} &\quad \tfrac{1}{2}\text{-Quantil} 
+			\end{align*}
+		\end{method}
+		
+		\begin{method}{{Lineare Transformation}}
+			\begin{align*}
+				Y = aX+b \quad &\implies \quad f_Y(x) = \tfrac{1}{|a|} f_X\left(\tfrac{x-b}{|a|}\right)
+			\end{align*}
+		\end{method}
+		
+		
+		
+		
+		\subsection*{Kovarianz und Korrelation}
+		
+		
+		\begin{method}{Kovarianz}
+			\begin{align*}	
+				\operatorname{Cov}(X,Y) &= \E\left(\left(X-\E[X]\right)\left(Y-E(Y)\right)\right) \\ &= \E[XY]  - \E[X]\E[Y]\\
+				\operatorname{Cov}(X,X) &= \Var(X)
+			\end{align*}
+		\end{method}
+		
+		\begin{method}{Korrelation}
+			\begin{align*}
+				\operatorname{Corr}(X,Y) &= \rho_{XY} = \frac{\operatorname{Cov}(X,Y)}{\sqrt{\Var(X)} \cdot \sqrt{\Var(Y)}}
+				= \frac{\operatorname{Cov}(X,Y)}{\sigma_X\cdot\sigma_Y} \\
+				\rho_{XY} \in [-1,1] &  \text{\small als dimensionsloses Mass des linearen Zusammenhanges} \\
+				\rho_{XY} &=\pm 1 \quad \iff \quad Y = a\pm bX \quad \text{mit }b>0, a \in \R
+			\end{align*}
+		\end{method}
+		
+		\begin{thm}{Rechenregeln}
+			\begin{align*}
+				\operatorname{Cov}(X,Y) &= \E(X\cdot Y) - \E[X] \cdot \E(Y) \\
+				\operatorname{Cov}(\cdot,\cdot) &\text{ ist bilinear:} \quad \\
+				\operatorname{Cov}(a+bX,c+dY) &= b\cdot d \cdot \operatorname{Cov} (X,Y) \\
+				\operatorname{Cov}(X+Y,Z) &= \operatorname{Cov}(X,Z)+\operatorname{Cov}(Y,Z) \\
+				\Var(X+Y) &= \Var(X)+\Var(Y)+2 \cdot \operatorname{Cov}(X,Y) \\
+				\operatorname{Cov} &\text{ ist symmetrisch}
+			\end{align*}
+			Sind die Zufallsvariablen $X$ und $Y$ unabhängig, so gilt $\operatorname{Cov}(X,Y) = \operatorname{Corr}(X,Y) = 0$.
+			Die Umkehrung gilt jedoch im Allgemeinen nicht.
+		\end{thm}
+		
+		
+		
+		\begin{mdframed}
+			\centering
+			{unabhängig $\implies$ paarweise unabhängig $\implies$ unkorreliert}
+		\end{mdframed}
+		
+		\textbf{Beispiel Unkorreliert aber nicht unabhängig:}
+		
+		Sei $X\sim \mathcal{N}(0,1)$ und $Y = X^2$. Dann gilt $\E[XY] = \E[X^3] = 0 = \E[X]\E[Y]$. Somit sind $X,Y$ unkorreliert $\rightarrow$ offensichtlich aber nicht unabhängig.
+		
+		
+		
+		
+		
+		\begin{thm}{Transformation von Zufallsvariablen}
+			Sei $X$ eine Zufallsvariable und $Y=g(X)$ eine weitere. Ist $X$ stetig mit Dichte $f_X(x)$ so ist:
+			\begin{align*}
+				\E[Y] = \E[g(X)] = \int_{-\infty}^{+\infty} g(x) f_X(x) dx
+			\end{align*}
+			
+			Falls $X,Y$ zwei stetige Zufallsvariablen sind $g(x,y) : \R^2 \to \R$ eine Funktion, dann gilt:
+			
+			\begin{align*}
+				\E[g(X,Y)] &= \int_{-\infty}^{+\infty} \int_{-\infty}^{+\infty} g(x,y) f_{X,Y}(x,y) dx dy
+			\end{align*}
+			
+		\end{thm}
+		
+		
+		
+		
+		\subsection*{Mehrere i.i.d Zufallsvariablen}
+		
+		Seien $X_1,\ldots,X_n \overset{iid}{\sim} F$. Dann ist $Y=g(X_1,\ldots,X_n)$ mit $g: \R^n \longrightarrow \R$ eine neue Zufallsvariable.
+		Wichtige Vertreter sind die Summe von Zufallsvariablen und die relative Häufigkeit.
+		\[ S_n = X_1 + \ldots + X_n \qquad \qquad\overline{X}_n = \dfrac{1}{n} S_n \]
+		Die Verteilungen von $S_n$ und $\overline X_n$ sind im allgemeinen aber schwierig zu bestimmen.
+		
+		\subsubsection*{Bekannte Verteilungen}
+		\begin{align*}
+			X_i \overset{iid}{\sim} \operatorname{Exponential}(\lambda) \; \Rightarrow & \; S_n \sim \operatorname{Exponential}(n\cdot \lambda) \\
+			X_i \overset{iid}{\sim} \operatorname{Poisson}(\lambda_i) \; \Rightarrow & \; S_n \sim \operatorname{Poisson}({\textstyle \sum \lambda_i}) \\
+			X_i \overset{iid}{\sim} \operatorname{Bernoulli}(p) \; \Rightarrow & \; S_n \sim \operatorname{Binomial}(n,p)\\
+			X_i \overset{iid}{\sim} \mc N(\mu, \sigma^2) \; \Rightarrow & \; S_n \sim \mc N(n \cdot \mu, n \cdot \sigma^2)
+		\end{align*}
+		\subsubsection*{Erwartungswerte und Varianzen}
+		\begin{align*}
+			\E(S_n) &= n \cdot \E(X_1) & \E(\overline{X}_n) &= \E(X_1) \\
+			\Var(S_n) &= n \cdot \Var(X_1) & \Var(\overline{X}_n) &= \tfrac{1}{n} \Var(X_1) \\
+			\sigma_{S_n} &= \sqrt{n} \cdot \sigma_{X_1} & \sigma_{\overline{X}_n} &= \tfrac{1}{\sqrt{n}} \cdot \sigma_{X_1}
+		\end{align*}
+		
+		
+		
+		\section{Ungleichungen und Grenzwertsätze}
+		
+		Wir bezeichnen in der folgenden Diskussion $X_i, \ldots, X_n$ Zufallsvariablen. (welche meistens i.i.d sind). Dann definieren wir
+		
+		\begin{align*}
+			S_n &= \sum_{i=1}^{n} X_i & \overline{X_n} &= \frac{1}{n}S_n = \frac{1}{n}\sum_{i=1}^{n}X_i
+		\end{align*}
+		
+		\textbf{i.i.d. Zufallsvariablen} Dies sind Zufallsvariablen die unabhängig und identisch verteilt sind. 
+		
+		\subsection*{Allgemeine Ungleichungen}
+		
+		\begin{method}{Markov Ungleichung}
+			Sei $X$ eine Zufallsvariable und $g:W(X)\to [0,\infty)$ eine wachsende Funktion. Für jedes $c\in\R$ gilt dann 
+			
+			\begin{align*}
+				P[X \geq c] &\leq \frac{\E[g(X)]}{g(c)}
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Chebyshev Ungleichung}
+			Sei $X$ eine Zufallsvariable mit endlicher Varianz. Für jedes $b>0$ gilt:
+			
+			\begin{align*}
+				P[|X-\E[X]| \geq b] &\leq \frac{\Var[X]}{b^2}
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Schwache Gesetz der grossen Zahlen}
+			Sei $X_1,X_2,\ldots$ eine Folge von \textit{unabhängigen} Zufallsvariablen mit gleichem Erwartungswert $\E[X_i] = \mu$ sowie gleicher Varianz $\Var[X_i] = \sigma^2$.\\
+			
+			
+			Sei $\overline{X}_n = \frac{1}{n}S_n = \frac{1}{n} \sum_{i=1}^{n} X_i$. Dann konvergiert $\overline{X}_n$ für $n\to\infty $ stochastisch gegen $\mu = \E[X_i]$, respektive:
+			
+			\begin{align*}
+				P[|\overline{X}_n - \mu|> \epsilon] \stackrel{n\to\infty}{\longrightarrow}   0 \ \text{ für jedes }\epsilon > 0
+			\end{align*}
+			
+			\textit{Bemerkung:} Es reicht wenn die $X_i$ nur paarweise unkorreliert sind (d.h. $\operatorname{Cov}(X_i,X_k) = 0$ für $i \neq k$)
+			
+		\end{method}
+		
+		
+		\begin{method}{Starke Gesetz der grossen Zahlen}
+			Sei $X_1,X_2,\ldots$ eine Folge von \textit{unabhängigen} Zufallsvariablen die alle die gleiche Verteilung haben mit Erwartungswert $\E[X_i] = \mu$ endlich. 
+			
+			Für $\overline{X}_n = \frac{1}{n}S_n = \frac{1}{n} \sum_{i=1}^{n} X_i$ gilt dann 
+			
+			\begin{align*}
+				\overline{X_n} \stackrel{n \to \infty}{\longrightarrow} \mu \quad \text{P-fastsicher}.
+			\end{align*}  
+			respektive
+			\begin{align*}
+				P\left[ \{ \omega \in \Omega | \overline{X_n}(\omega)  \stackrel{n \to \infty}{\longrightarrow}  \mu  \} \right] &= 1
+			\end{align*}
+		\end{method}
+		
+		\textbf{Unterschied zwischen starkem und schwachem Gesetz der grossen Zahlen:} Beim ersten Gesetz ist die Wahrscheinlichkeit, dass $|\overline{X}_n - \mu|> \epsilon$ nie 0 sondern nur asymptotisch mit $n \to \infty$ 0. Somit gibt es eine sehr kleine Wahrscheinlichkeit, dass $|\overline{X}_n - \mu| > \epsilon$. Beim starken Gesetz ist jedoch die Wahrscheinlichkeit, dass dies passiert 0. In anderen Worten wenn wir unendlich viele $\overline{X_n}$ anschauen werden nur endlich viele nicht nach $\mu$ konvergieren.
+		
+		Zusammengefasst: Beim schwachen ist die Chance von Nichtkonvergenz sehr klein, beim zweiten 0.
+		
+		\subsection*{Der zentrale Grenzwertsatz}
+		
+		
+		\begin{method}{Zentraler Grenzwertsatz}
+			Sei $X_1,X_2,\ldots$ eine Folge von \textit{i.i.d Zufallsvariablen (independent and identically distributed random variables)} mit $\E[X_i] = \mu$ und $\Var[X_i] = \sigma^2$. Für die Summe $S_n = \sum_{i=1}^{n} X_i$, respektive $\overline {X}_{n}={\frac  {X_{1}+\cdots +X_{n}}n}$ gilt dann:
+			
+			\begin{align*}
+				\lim\limits_{n \to \infty} P\left[ \frac{S_n - n\mu}{\sigma \sqrt{n}} \leq x\right] = \lim _{{n\rightarrow \infty }}P\left[{\frac  {\overline {X}_{n}-\mu }{\sigma /{\sqrt  {n}}}}\leq x\right]= \Phi(x)
+			\end{align*}
+			
+			Wobei $\Phi$ die Verteilungsfunktion von $\mathcal{N}(0,1)$ ist.	
+		\end{method}
+		
+		In Praxis definiert man $S_n^* = \frac{S_n- n\mu}{\sigma \sqrt{n}} = \frac{S_n-\E[S_n]}{\sqrt{\Var[S_n]}}$ da $\E[S_n] = n\mu$ sowie $\Var[S_n] = n\sigma^2$. Als auch definieren wir $\overline{X_n} = \frac{1}{n}S_n$.
+		
+		Nun gilt
+		
+		\begin{align*}
+			P[S_n^*\leq x] &\approx \Phi(x) \quad \text{ für $n$ gross}\\
+			S_n^* &\stackrel{\text{approx}}{\sim} \mathcal{N}(0,1)\\
+			S_n &\stackrel{\text{approx}}{\sim} \mathcal{N}(n\mu, n\sigma^2)\\
+			\overline{X_n} &\stackrel{\text{approx}}{\sim} \mathcal{N}(\mu, \frac{1}{n}\sigma^2)
+		\end{align*}
+		
+		
+		\begin{thm}{Kontinuitätskorrektur}
+			
+			
+			Angenommen $S_n \stackrel{\text{approx.}}{\sim} \mathcal{N}(np,np(1-p))$ sowie
+			\begin{align*}
+				P\left[ a < S_n  \leq b \right] &= P\left[ \frac{a-np}{ \sqrt{np(1-p)}} < S_n^* \leq \frac{b-np}{\sqrt{np(1-p)}} \right]\\
+				&\approx \Phi \left(\frac{b+\frac{1}{2} - np}{\sqrt{np(1-p)}}\right) - \Phi \left(\frac{a+\frac{1}{2} - np}{\sqrt{np(1-p)}}\right)
+			\end{align*}
+			wobei $S^*_n \sim \mathcal{N}(0,1)$, so haben wir die Untere Schranke um $\frac{1}{2}$ nach oben verschoben, da $a$ nicht drin ist, und $b$ auch, da $b$ drin ist. Intuitiv wollen wir damit die Stäbe aus dem Histogramm der Binomialverteilung zentriert über die Werte von $a$ bis $b$ setzten.
+		\end{thm}
+		
+		
+		\subsection*{Grosse Abweichungen und Chernoff-Schranken}
+		
+		
+		\begin{method}{Momenterzeugende Funktion}
+			Wir definieren die momenterzeugende Funktion einer Zufallsvariable X als
+			\begin{align*}
+				M_X(t) &= \E\left[e^{tX}\right]
+			\end{align*}
+			welche auf $[0,\infty)$ wohldefiniert ist aber unendlich gross werden kann.
+			
+			Aufgrund der Definition gilt:\begin{itemize}
+				\item Diskret: $M_X(t) = \sum_{i=1}^{\infty} e^{tx_i}p_i$
+				\item Stetig: $M_X(t)= \int_{-\infty}^{\infty} e^{tx}f(x)\ dx$
+			\end{itemize}
+		\end{method}
+		
+		\textbf{Beispiel}
+		Sei $X \sim Exp(\lambda)$. Dann gilt $M_X(t) = \E[e^{tX}] = \int_{0}^{\infty} e^{tx} \lambda e^{-\lambda x} dx = \lambda \int_{0}^{\infty}e^{-(\lambda-t)x} dx = - \frac{\lambda}{\lambda - t} e^{-(\lambda -t)x}\mid_0^\infty$
+		\begin{method}{Abschätzung mit momenterzeugender Funktion}
+			Seien $X_1,\ldots,X_n$ i.i.d. Zufallsvariablen für welche die momenterzeugende Funktion $M_X(t)$ für alle $t\in \R$ endlich ist. Für jedes $b$ gilt dann:
+			\begin{align*}
+				P[S_n > b] &\leq \exp \left( \inf_{t\in\R} \left(  n\log M_X(t) - tb \right)  \right)
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Chernoff Schranke}
+			Seien $X_1,\ldots,X_n$ unabhängig mit $X_i \sim Be(p_i)$ und $S_n = \sum_{i=1}^{n}X_i$. Sei ferner $\mu_n = \E[S_n] = \sum_{i=1}^{n} p_i$ und $\delta > 0$. Dann gilt:
+			\begin{align*}
+				P[S_n \geq (1+\delta)\mu_n] &\leq \left(\frac{e^\delta}{(1+\delta)^{1+\delta}}\right)^{\mu_n}
+			\end{align*}
+		\end{method}
+		
+		Alternativ gibt es auch folgende Abschätzungen: (nicht im Skript!)
+		
+		\begin{align*}
+			P[X \geq (1+\delta)\mu] &\leq e^{-\frac{\delta^2}{2+\delta}\mu} \ \text{ für alle } \delta > 0  \\
+			P[X \leq (1-\delta)\mu] &\leq e^{-\mu\delta^2/2} \ \text{ für } 0 < \delta < 1
+		\end{align*}
+		
+		
+		
+		\part{Statistik}
+		
+		\section{Schätzer}
+		\subsection*{Grundbegriffe}
+		
+		\begin{itemize}
+			\item $\vartheta =  (\vartheta_1,\ldots,\vartheta_n)$ ist ein Vektor an Parameter die wir gerne Schätzen möchten. Sie müssen Teil von der Dichtefunktion sein.
+			\item $T = (T_1,\ldots,T_n)$ sind Schätzer, das sind Zufallsvariablen die $\vartheta$ bestmöglichst schätzen. Dabei gilt $T_i = t_i(X_1,\ldots,X_n)$ für ein geeignetes $t_i:\R^n \to \R$
+			\item Wir nennen $x_1,\ldots,x_n$ Daten/Realisationen von Zufallsvariablen mit $x_i = X_i(\omega)$.
+			\item $T_i(\omega) = t_i(X_1(\omega), \ldots, X_n(\omega)) = t_i(x_1,\ldots,x_n) $ heisst Schätzwert.
+		\end{itemize}
+		
+		\subsection*{Gütebegriffe}
+		
+		\begin{method}{Erwartungstreue \& Bias}
+			\begin{align*}
+				\E_\vartheta[T] = \vartheta &\iff \text{ Erwartungstreu}\\
+				bias &= \E_\vartheta[T] - \vartheta
+			\end{align*}
+		\end{method}
+		
+		\begin{method}{Konsistenz}
+			Wir nennen eine Folge von Schätzern $T^{(n)}$ konsistent für $\vartheta$ falls
+			\begin{align*}
+				\lim_{n\to\infty} P_\vartheta [|T^{(n)} - \vartheta| > \epsilon] = 0 \quad \forall \epsilon > 0
+			\end{align*}
+			
+			{\Large $\rightarrow$ versuche es mit Chebychev}
+		\end{method}
+		
+		
+		
+		
+		\begin{method}{Mean Squared Error (MSE)}
+			\begin{align*}
+				MSE_\vartheta[T] &= \E_\vartheta [(T-\vartheta)^2]= \Var_\vartheta[T] + (E_\vartheta [T]-\vartheta)^2\\
+				&=  \Var_\vartheta[T] + (bias^2)
+			\end{align*}
+		\end{method}
+		
+		
+		
+		
+		\subsection*{Maximum-Likelihood-Methode}
+		
+		\begin{method}{Maxmium-Likelihood-Schätzer}
+			Seien $X_1,\ldots X_n$ Zufallsvariablen von $n$ Stichproben und $x_1,\ldots,x_n$ die Realisationen dieser Zufallsvariablen.	
+			
+			Wir definieren die Likelihood-Funktion als
+			
+			\begin{align*}
+				L(x_1,\ldots x_n;\vartheta) &= \begin{cases}
+					p(x_1,\ldots,x_n;\vartheta) \quad \text{ diskreter Fall}\\
+					f(x_1,\ldots,x_n;\vartheta) \quad \text{ stetiger Fall}\\
+				\end{cases}
+			\end{align*}
+			
+			Wenn die $X_1,\ldots,X_n$ i.i.d. sind, so gilt $p(x_1,\ldots,x_n;\vartheta) = \prod_{i=1}^{n}p_X(x_i;\vartheta)$ respektive $f(x_1,\ldots,x_n;\vartheta) = \prod_{i=1}^{n}f_X(x_i;\vartheta)$
+			
+			Wenn die $X_1,\ldots X_n$ i.i.d. sind, dann verwenden wir oft die log-likelihood-Funktion $\log(L)$ welche das $\prod$ in ein $\sum$ verwandelt.
+			
+			Nun maximiere die Funktion (meistens reicht die Nullstelle): Die gibt dann z.B. eine Funktion wie $\vartheta = \frac{1}{n}\sum_{i=1}^{n}x_i$, wir ersetzten nun $x_i$ durch $X_i$ und $\vartheta$ durch $T$ zu $T = \frac{1}{n}\sum_{i=1}^{n}X_i$
+		\end{method}
+		
+		\textbf{Beispiel 1:}
+		
+		Seien $X_1,\ldots,X_n$ i.i.d und das Modell $P_{\theta}\sim Poisson(\theta)$. Wir bauen log-Likelihood Funktion:
+		
+		\begin{align*}
+			\log(L(x_1,\ldots,x_n)) &= \log\left(\prod_{i=1}^{n} e^{-\theta} \frac{\theta^{x_i}}{x_i !} \right)\\ &= -\theta n + \log(\theta) \sum_{i=1}^{n} x_i - \sum_{i=1}^{n}\log(x_i !)
+		\end{align*}
+		
+		nun leiten wir ab:
+		
+		\begin{align*}
+			\frac{\partial}{\partial \theta}\log(L(x_1,\ldots,x_n)) &= -n + \frac{\sum_{i=1}^{n}x_i}{\theta} \stackrel{!}{=} 0 \\
+			\implies & \theta = \frac{\sum_{i=1}^{n} x_i}{n}
+		\end{align*}
+		
+		\textbf{Beispiel 2 (nicht ableitbar):}
+		
+		Sei $f_X(x) = \begin{cases}
+			e^{\alpha - x} \quad x \geq \alpha\\
+			0 \quad \text{sonst}
+		\end{cases}$ Wir möchten den MLS berechnen:
+		
+		\begin{align*}
+			L(\vec{x},\theta) &= \prod_{i=1}^{n} f_\alpha (x_i) = \prod_{i=1}^{n} e^{\alpha - x_i} 1_{x_i \geq \alpha}\\
+			&= \exp \left(n\alpha - \sum_{i=1}^{n} x_i \right) \cdot \prod_{i=1}^{n} 1_{x_i\geq \alpha}\\
+			&= \exp \left(n\alpha - \sum_{i=1}^{n} x_i \right) \cdot 1_{\min x_i \geq \alpha}\\
+			&= \begin{cases}
+				\exp (n \alpha - \sum_{i=1}^{n} x_i) \quad \alpha \leq \min x_i\\
+				0 \quad \text{sonst}
+			\end{cases}
+		\end{align*}
+		Somit ist der MLS $\hat{\alpha} = \min x_i$, da dann $\alpha$ den obigen Ausdruck maximiert.
+		
+		\subsection*{Momentenschätzer}
+		
+		\begin{method}{Momentenschätzer}
+			
+			Die Idee ist, dass wir ein Gleichungssystem auflösen bei welchen:
+			\begin{itemize}
+				\item Das $j$-te Moment ${\displaystyle m_{j}(\vartheta )=\operatorname {E} _{\vartheta }(X_{1}^{j})}$
+				\item Das $j$-te Stichprobenmoment ${\displaystyle m_{j}(x)={\frac {1}{n}}\sum _{i=1}^{n}x_{i}^{j}}$
+			\end{itemize}
+			
+			Dann setzen wir die Momente gleich und lösen nach $\vartheta$ auf.
+			
+		\end{method}
+		
+		Es gilt bekanntlicherweise dass $\E[X] = \mu$ sowie $\E[X^2] = \mu^2 + \sigma^2$. Wir können somit das folgende System auflösen:
+		
+		\begin{align*}
+			\frac{x_1 + \ldots + x_n}{n} &= \mu\\
+			\frac{x_1^2 + \ldots + x_n^2}{n} &= \mu^2 + \sigma ^2
+		\end{align*}
+		
+		
+		
+		\begin{thm}{Zentrale Lemmata}
+			Seien $X_1,\ldots, X_n$ i.i.d. $\sim \mathcal{N}(\mu,\sigma^2)$ dann gilt:
+			
+			\begin{itemize}
+				\item $\overline{X_n}$ ist Normalverteilt $\sim \mathcal{N}(\mu,\frac{1}{n}\sigma^2)$ und $\frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}} \sim \mathcal{N}(0,1)$
+				\item $\frac{n-1}{\sigma^2}S^2 = \frac{1}{\sigma^2}\sum_{i=1}^{n}(X_i - \overline{X_n})$ ist $\chi^2$ Verteilt mit $n-1$ Freiheitsgraden.
+				\item $\overline{X_n}$ und $S^2$ sind unabhängig.
+				\item Der Quotient
+				\begin{align*}
+					\frac{\overline{X_n}-\mu}{S/\sqrt{n}} = \frac{\frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}}}{S/\sigma} = \frac{\frac{\overline{X_n} - \mu}{\sigma / \sqrt{n}}}{\sqrt{\frac{1}{n-1} \frac{n-1}{\sigma^2} S^2}}
+				\end{align*}
+				ist $t$-verteilt mit $n-1$ Freiheitsgraden.
+			\end{itemize}
+			Dabei galt $\overline{X_n} = \frac{1}{n}\sum_{i=1}^{n} X_i$ sowie $S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i -\overline{X_n})^2$ die empirische Stichprobenvarianz.
+		\end{thm}
+		
+		\section{Tests}
+		
+		Für einen Test definieren wir:
+		\begin{itemize}
+			\item Hypothese $H_0$ : $\vartheta \in \Theta_0$
+			\item Alternative $H_A$ : $\vartheta \in \Theta_A$
+		\end{itemize}
+		
+		Wir bauen eine Teststatistik $T$. Wir verwerfen die Hypothese wenn $T(\omega) \in K$ liegt, wobei $K$ ein Intervall, der Verwerfungsbereich ist.
+		
+		\begin{itemize}
+			\item Signifikanzniveau $\alpha \in (0,1)$ wird gewählt mit $\sup_{\vartheta\in \Theta_0} P_{\vartheta} \left[T\in K\right] \leq \alpha$. Es gilt $\alpha = P[\text{Typ 1 Fehler} | H_0\text{ ist wahr}]$
+			\item Die Macht des Testes ist $\beta : \Theta_A \to [0,1]$ mit $\beta(\vartheta) = P_{\vartheta}[T\in K]$ mit $P[\text{Typ 2 Fehler}] = \beta$
+		\end{itemize}
+		
+		mit 
+		
+		\begin{itemize}
+			\item \textbf{Typ 1 Fehler:} verwerfe $H_0$ obwohl sie stimmte
+			\item \textbf{Typ 2 Fehler:} bestätige $H_0$ obwohl sie eigentlich falsch ist
+		\end{itemize}
+		
+		Dabei gilt:
+		
+		Zuerst wählt man das Signifikanzniveau dann maximiert man die Macht des Testes.
+		
+		
+		\textbf{Macht Berechnen: Beispiel}
+		
+		Angenommen wir haben einen Test $T = \frac{\overline{X} - \mu_0}{\sigma / \sqrt{9}}$ sowie ein Verwerfungsbereich $K=[1.28,\infty)$ (einseitiger Test) mit $H_0 : \mu = 84$.
+		
+		Nun wollen wir die Macht des Testes zugunsten der konkreten Alternativhypothese $H_A: \mu = 85$ testen.
+		
+		Nun rechnen wir
+		
+		\begin{align*}
+			P_{\mu = 85}[T\in K] &= P_{\mu = 85}[T\geq 1.28]\\
+			&= P_{\mu = 85} \left[\frac{\overline{X} -85}{\sigma / \sqrt{9}} - \frac{\mu_0  -85}{\sigma / \sqrt{9}} \geq 1.28 \right]\\
+			&= P_{\mu = 85} \left[\frac{\overline{X} -85}{\sigma / \sqrt{9}}  \geq 0.28 \right]\\
+			&= 1 - \Phi(0.28) \approx 38.97\%;
+		\end{align*}
+		
+		\textbf{Kommentar: } Mit $\frac{\overline{X} -85}{\sigma / \sqrt{9}} - \frac{\mu_0  -85}{\sigma / \sqrt{9}}$ verschieben wir die Verteilung wie gewollt, so dass sie nun über $\mu_2$ zentriert ist. Der Fehler 2ter Art ist (1 - Macht) oder $P_\theta [T\not \in K]$
+		
+		\begin{thm}{Neyman-Pearson-Lemma}
+			Wenn $\Theta_0 = \{\vartheta_0\}$, $\Theta_A = \{\vartheta_A\}$, $K = [0,c)$ sowie $\alpha^*= P_{\vartheta_0}[T\in K] = P_{\vartheta_0}[T < c]$.
+			
+			Jeder andere Test als 
+			\begin{align*}
+				R(x_1,\ldots,x_n;\vartheta_0, \vartheta_A) = \frac{L(x_1,\ldots,x_n;\vartheta_0)}{L(x_1,\ldots,x_n;\vartheta_A)}
+			\end{align*}der Likelihood Koeffizient, mit Signifikanzniveau $\alpha \leq \alpha'$ hat kleinere Macht.
+		\end{thm}
+		
+		
+		\subsection*{Statistische Testverfahren}
+		
+		
+		\begin{method}{$z$-Test}
+			Ein Test für den Erwartungswert bei bekannter Varianz. Seien $X_1,\ldots,X_n\sim \mathcal{N}(\mu,\sigma^2)$ unter $P_{\vartheta}$ mit bekanntem $\sigma^2$. Es ist $H_0 : \vartheta = \vartheta_0$ Möglich Variationen sind:
+			\begin{itemize}
+				\item $H_A: \vartheta > \vartheta_0$: $K = (c_>,\infty)$, $c_> = z_{(1-\alpha)}$
+				\item $H_A: \vartheta < \vartheta_0$: $K = (-\infty,-c_<)$, $c_< = z_\alpha$.
+				\item $H_A: \vartheta \neq \vartheta_0$: $K = (-\infty,-c_{\neq}) \cup (c_{\neq},\infty)$, $c_{\neq} = z_{1-\frac{\alpha}{2}}$.
+			\end{itemize}
+			Mit $T=\frac{\overline{X_n}-\vartheta_0}{\sigma / \sqrt{n}} \sim \mathcal{N}(0,1)$ sowie $z_{x} = \Phi^{-1}(x)$.
+		\end{method}
+		Beachte dass $\overline{X_n} = \frac{1}{n} \sum_{i=1}^{n} X_i$
+		
+		\begin{method}{$t$-Test}
+			Ein Test für den Erwartungswert bei unbekannter Varianz. Seien $X_1,\ldots,X_n\sim \mathcal{N}(\mu,\sigma^2)$ unter $P_{\vec{\vartheta}}$ mit $\vec{\vartheta}=(\mu,\sigma^2)$. Wir haben $\Theta_0= \{\sigma\}\times(0,\infty)$. Die Teststatistik ist gegeben durch $T = \frac{\overline{X_n}- \mu_0}{S/\sqrt{n}} \sim t_{n-1}$ mit $S^2=\frac{1}{n-1}\sum_{i=1}^{n}\left(X_i-\overline{X_n}\right)^2$ für $\sigma^2$
+			
+			\begin{itemize}
+				\item $H_A: \vartheta > \vartheta_0$: $K = (c_>,\infty)$, $c_> = t_{n-1,1-\alpha}$
+				\item $H_A: \vartheta < \vartheta_0$: $K = (-\infty,c_<)$, $c_< = t_{n-1,\alpha} = -t_{n-1,1-\alpha}$.
+				\item $H_A: \vartheta > \vartheta_0$: $K = (-\infty,-c_{\neq}) \cup (c_{\neq},\infty)$, $c_{\neq} = t_{n-1,1-\frac{\alpha}{2}}$.
+			\end{itemize}
+			wobei $t_{m,\gamma}$ das $\gamma$-Quantil der $t_m$ Verteilung ist.
+		\end{method}
+		
+		\begin{method}{Gepaarte Zweistichproben-Test bei Normalverteilung}
+			Wenn $X_1,\ldots,X_n$ i.i.d $\sim \mathcal{N}(\mu_X,\sigma^2)$ sowie $Y_1,\ldots,Y_n$ i.i.d $\sim \mathcal{N}(\mu_Y,\sigma^2)$ mit gleicher Anzahl Proben und gleicher Varianz, so definiert man $Z_i = X_i-Y_i$ die unter $P\vartheta$ i.i.d zu $\sim \mathcal{N}(\mu_X-\mu_Y,2\sigma^2)$ sind. Dann verwende entweder $z$-Test oder $t$-Test.
+		\end{method}
+		
+		
+		\begin{method}{Ungepaarter Zweistichproben-Test bei Normalverteilung}
+			Seien unter $P\vartheta$ $X_1,\ldots,X_n$ i.i.d. $\sim \mathcal{N}(\mu_X,\sigma^2)$ sowie $Y_1,\ldots,Y_m$ i.i.d. $\sim \mathcal{N}(\mu_Y,\sigma^2)$ wobei $m\neq n$ sein kann.
+			\begin{itemize}
+				\item \textit{Ungepaarter Zweistichproben-$z$-Test wenn $\sigma^2$ bekannt ist:} Es ist $T = \frac{(\overline{X_n} -\overline{Y_m}) - (\mu_X - \mu_Y)}{\sigma \sqrt{\frac{1}{n} + \frac{1}{m}}} \sim \mathcal{N}(0,1)$
+				\item \textit{Ungepaarter Zweistichproben-$t$-Test wenn $\sigma^2$ unbekannt ist:} Wir haben die beiden empirischen Varianzen
+				$S^2_X = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \overline{X_n})^2$ und $S^2_Y = \frac{1}{n-1} \sum_{i=1}^{n} (Y_i - \overline{Y_n})^2$. Es gilt $S^2 = \frac{1}{m+n-2}\left(\left(n-1\right)S_X^2 + \left(m-1\right)S_Y^2\right)$ mit der Teststatistik $T = \frac{(\overline{X_n} -\overline{Y_m}) - (\mu_X - \mu_Y)}{S \sqrt{\frac{1}{n} + \frac{1}{m}}} \sim t_{n+m-2}$
+			\end{itemize}
+			
+		\end{method}
+		
+		
+		\section{Konfidenzbereiche}
+		
+		\begin{method}{Konfidenzbereich}
+			Ein Konfidenzbereich ist eine Menge $C(X_1,\ldots,X_n) \subseteq \Omega$ zum Niveau $1-\alpha$ falls gilt
+			
+			\begin{align*}
+				P_{\vartheta} \left[\vartheta \in C(X_1,\ldots,X_n) \right] \geq 1 - \alpha \quad \text{für alle } \vartheta \in \Omega
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{thm}{Bekannte Konfidenzbereiche}
+			\begin{itemize}
+				\item 	$\mu$ unbekannt, $\sigma^2$ bekannt:
+				\begin{itemize}
+					\item $\mu \text{ zum Niveau } 1-\alpha$:
+					\begin{align*}
+						{\displaystyle \left[{{\overline{X_n}}-z_{(1-{\tfrac {\alpha }{2}})}{\frac {\sigma }{\sqrt {n}}}\ ;\ {\overline{X_n}}+z_{(1-{\tfrac {\alpha }{2}})}{\frac {\sigma }{\sqrt {n}}}}\right]}
+					\end{align*}
+				\end{itemize}
+				\item 	$\mu, \sigma^2$ unbekannt:
+				\begin{itemize}
+					\item $\mu \text{ zum Niveau } 1-\alpha$:
+					\begin{align*}
+						\left[ \overline{X_n} -t_{n-1,1-\frac{\alpha}{2}}\frac{S}{\sqrt{n}} , \overline{X_n} +t_{n-1,1-\frac{\alpha}{2}}\frac{S}{\sqrt{n}}   \right]
+					\end{align*}
+					\item $\sigma^2 \text{ zum Niveau } 1-\alpha$:
+					\begin{align*}
+						\left[ \frac{(n-1)S^2}{\chi_{n-1,1-\frac{\alpha}{2}}^2} , \frac{(n-1)S^2}{\chi_{n-1,\frac{\alpha}{2}}^2}\right]
+					\end{align*}
+				\end{itemize}
+			\end{itemize}
+		\end{thm}
+		
+		\textbf{Konstruktion von Konfidenzintervallen}
+		
+		Angenommen wir haben 8 Gewichte gegeben die wir als Realisationen von $X_1,\ldots,X_8$ i.i.d. $\sim \mathcal{N}(\mu,\sigma^2)$. Als Schätzer verwenden wir $\mu = \overline{X_n} = \frac{1}{n} \sum_{i=1}^{n} X_i$ und als Stichprobenvarianz $S^2 = \frac{1}{n-1} \sum_{i=1}^{n} (X_i - \overline{X_n})^2$.
+		
+		Wir machen den Ansatz $C(X_1,\ldots,X_n) \ = \left[\overline{X_n} - \cdots , \overline{X_n} + \cdots \right]$ und wollen erreichen dass $1-\alpha \leq 	P_{\vartheta} \left[\vartheta \in C(X_1,\ldots,X_n) \right] = 	P_{\vartheta} \left[\mu  \in \left[\overline{X_n} - \cdots , \overline{X_n} + \cdots\right] \right] = P_{\vartheta} \left[ |\overline{X_n} - \mu| \leq \cdots \right]$
+		
+		Da $\frac{\overline{X_n} - \mu}{S/\sqrt{n}} \sim t_{n-1}$ brauchen wir $\frac{...}{S/\sqrt{n}} = t_{n-1,1-\frac{\alpha}{2}}$.
+		
+		Dies gibt uns dann das Konfidentintervall für $\mu$ zum Niveau $1-\alpha$:
+		
+		\begin{align*}
+			C(X_1,\ldots,X_n) &= \left[ \overline{X_n} -t_{n-1,1-\frac{\alpha}{2}}\frac{S}{\sqrt{n}} , \overline{X_n} +t_{n-1,1-\frac{\alpha}{2}}\frac{S}{\sqrt{n}}   \right]
+		\end{align*}
+		
+		Um ein Konfidenzintervall für $\sigma^2$ zu konstruieren verwenden wir $\frac{1}{\sigma^2} (n-1)S^2 = \frac{1}{\sigma^2}\sum_{i=1}^{n} (X_i- \overline{X_n})^2 \sim \chi_{n-1}^2$
+		
+		Wir rechnen wieder $1-\alpha = P_{\vartheta} \left[ \chi_{n-1,\frac{\alpha}{2}}^2 \leq \frac{1}{\sigma^2} (n-1)S^2 \leq \chi_{n-1,1-\frac{\alpha}{2}}^2 \right] = P_{\vartheta} \left[ \frac{(n-1)S^2}{\chi_{n-1,1-\frac{\alpha}{2}}^2} \leq \sigma^2 \leq \frac{(n-1)S^2}{\chi_{n-1,\frac{\alpha}{2}}^2}  \right]$
+		
+		Dies impliziert 
+		\begin{align*}
+			C(X_1,\ldots,X_n) = \left[ \frac{(n-1)S^2}{\chi_{n-1,1-\frac{\alpha}{2}}^2} , \frac{(n-1)S^2}{\chi_{n-1,\frac{\alpha}{2}}^2}\right]
+		\end{align*}
+		\section {Kombinatorik}
+		
+		Wir definieren die 
+		
+		\begin{itemize}
+			\item \textbf{Auf wie viele Arten kann man $n$ Objekte (z.B. nebeneinander) anordnen?}
+			
+			Dies ist die Anzahl Permutationen von $n$ Elementen und ist $n!$.
+			
+			
+			\item 	\textbf{Auf wie viele Arten kann man $k$ aus $n$ Objekten auswählen (mit $k\leq n$ ohne Zurücklegen)?}
+			
+			Dies ist die Anzahl Kombinationen ist $\binom{n}{k} = \frac{n!}{k!(n-k)!}$.
+			
+			
+			\item \textbf{Wie viele Sequenzen der Länge $m$ kann ma mit den $n$ Symbolen bilden?}
+			
+			Dies ist die Anzahl der Variationen (mit Wiederholung) und ist $n^m$
+		\end{itemize}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		%    _               _           _     
+		%   /_\  _ __   __ _| |_   _ ___(_)___ 
+		%  //_\\| '_ \ / _` | | | | / __| / __|
+		% /  _  \ | | | (_| | | |_| \__ \ \__ \
+		% \_/ \_/_| |_|\__,_|_|\__, |___/_|___/
+		%                       |___/           
+		
+		
+		
+		
+		% -------------------------- Ableitung --------------------------
+		
+		
+		\part{Analysis}
+		
+		\section{Ableitung}
+		
+		\begin{method}{Ableitung}
+			Sei $D \subset \R$ , $f:D \to  \R$ und $x_0$ ein Häufungspunkt von $D$. $f$ ist in $x_0$ differenzierbar, falls der Grenzwert 
+			$$ \lim\limits_{x \to x_0} \frac{f(x) -f(x_0)}{x-x_0}$$
+			existiert. Ist dies der Fall, wird der Grenzwert mit $f'(x_0)$ bezeichnet.\\
+			Alternativ nutzt man auch $x = x_0 + h$
+			\begin{align*}
+				f'(x_0) = \lim\limits_{h \to 0} \frac{f(x_0 + h) - f(x_0)}{h}
+			\end{align*}
+		\end{method}
+		
+		
+		
+		\subsection*{Konvexität}
+		
+		\begin{method}{Konvex}
+			$f : I \to \R$ ist konvex (auf I) falls für alle $x \leq y$ $x,y \in I$ und $\lambda \in [0,1]$
+			\begin{align*}
+				f(\lambda x + (1-\lambda)y) \leq \lambda f(x) + (1-\lambda)f(y)
+			\end{align*}
+			Zudem gilt für $x_0 < x< x_1$ in $I$:
+			\begin{align*}
+				\frac{f(x) - f(x_0)}{x-x_0} \leq \frac{f(x_1) - f(x)}{x_1 - x}
+			\end{align*}
+			Man beweist dies indem man $x = (1-\lambda) x_0 + \lambda x_1$ wählt und somit $\lambda = \frac{x-x_0}{x_1 - x_0}$
+		\end{method}
+		
+		
+		
+		
+		\subsection*{Wichtige Taylorapproximationen um $x=0$}
+		\begin{itemize}
+			\item $\boxed{\frac{1}{1-x}}$ Für alle $x \in (1,0)$ gilt:
+			\begin{align*}
+				{\frac{1}{1-x}} &= 1 + x + x^2 + x^3 + x^4 + \cdots \\
+				&= \sum_{n=0}^{\infty} x^n
+			\end{align*}	
+			
+			\item $\boxed{e^x}$ Für alle $x \in \R$ gilt:
+			\begin{align*}
+				e^x &= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!}\\
+				&= \sum_{n=0}^{\infty} \frac{x^n}{n!}
+			\end{align*}
+			
+			\item $\boxed{\cos(x)}$ Für alle $x\in R$ gilt:
+			\begin{align*}
+				\cos(x) &= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \frac{x^8}{8!} - \cdots  \\
+				&= \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n}}{(2n)!}
+			\end{align*}
+			
+			\item $\boxed{\sin(x)}$ Für alle $x\in R$ gilt:
+			\begin{align*}
+				\sin(x) &=  x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \frac{x^9}{9!} - \cdots\\
+				&= \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n+1}}{(2n+1)!} = \sum_{n=1}^{\infty} (-1)^{(n-1)} \frac{x^{2n-1}}{(2n-1)!}
+			\end{align*}
+			
+			\item $\boxed{\ln(1+x)}$ Für alle $x\in (-1,1]$ gilt:
+			\begin{align*}
+				\ln(x+1) &= x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \frac{x^5}{5}- \cdots \\
+				&= \sum_{n=1}^{\infty} (-1)^{(n+1)} \frac{x^n}{n}
+			\end{align*}
+			
+			\item $\boxed{\arctan(x)}$ Für alle $x\in [-1,1]$ gilt:
+			\begin{align*}
+				\arctan(x) &= x - \frac{x^3}{3} + \frac{x^5}{5} - \frac{x^7}{7} + \frac{x^9}{9} - \cdots \\
+				&= \sum_{n=0}^{\infty} (-1)^n \frac{x^{2n+1}}{2n+1}
+			\end{align*}
+			
+			\item $\boxed{(1 + x)^\alpha}$ Für alle $x\in \R$ gilt:
+			\begin{align*}
+				(1 + x)^\alpha &=  1 + \alpha x + \frac{\alpha(\alpha-1)}{2!} x^2 + \cdots \\
+				&= \sum_{k=0}^{\infty} \; {\alpha \choose k} \; x^k 
+			\end{align*}
+			
+			\item $\boxed{\sinh(x)}$ Für alle $x\in \R$ gilt:
+			\begin{align*}
+				\sinh(x) &= x + \frac{x^3}{6} + \frac{x^5}{120} + \mathcal{O}(x^7)\\
+				&= \sum_{k=0}^{\infty}\frac{x^{1+2k}}{(1+2k)!}
+			\end{align*}
+			
+			\item $\boxed{\cosh(x)}$ Für alle $x\in \R$ gilt:
+			\begin{align*}
+				\cosh(x) &= 1 + \frac{x^2}{2} + \frac{x^4}{24} + \frac{x^6}{720} +  \mathcal{O}(x^7)\\
+				&= \sum_{k=0}^{\infty}\frac{x^{2k}}{(2k)!}
+			\end{align*}
+			
+			
+		\end{itemize}
+		
+		
+		
+		
+		
+		
+		\subsection*{Fundamentalsatz}
+		
+		\begin{method}{Fundamentalsatz der Differentialrechnung}
+			Sei $f:[a,b] \to \R$ stetig. Dann gibt es eine Stammfunktion $F$ von $f$, die bis auf eine additive Konstante eindeutig bestimmt ist und es gilt:
+			$$\int_{a}^{b} f(x) dx = F(b) - F(a)$$
+			\textit{Beweis:} Existenz folgt aus Stammfunktionssatz. Seien $F_1, F_2$ Stammfkt., dann gilt $F_1' - F_2' = 0$. Somit ist $F_1 - F_2 = C$ mit $F(x) = C + \int_{a}^{x} f(t) dt$. Es folgt auch $F(a) = \int_{a}^{a} f(t) dt + C$ und somit $F(a) = C$. Es folgt daraus $F(b)-F(a) = \int_{a}^{b} f(t) dt$ \qed 
+		\end{method}
+		
+		
+		\subsection*{Ableitung des Integrals}
+		Mit der Kettenregel folgt aus dem Fundamentalsatz:
+		\begin{align*}
+			\frac{d}{dx} \left( \int_{u(x)}^{v(x)} f(t)  dt \right) &= f(v)\frac{dv}{dx} - f(u)\frac{du}{dx}
+		\end{align*}
+		
+		\section*{Integrale Ausrechnen}
+		
+		\begin{important}
+			Integrationskonstante $C$ nicht vergessen!
+		\end{important}
+		
+		\subsection*{Direkte Integrale}
+		Diese sind vom Typ $\int f(g(x)) g'(x) dx = F(g(x))$.
+		
+		\subsection*{Partielle Integration}
+		\begin{method}{Partielle Integration}
+			\begin{align*}
+				\int f' \cdot g \ dx = f \cdot g - \int f \cdot g' \  dx
+			\end{align*}
+		\end{method}
+		
+		
+		
+		\subsection*{Integrale rationaler Funktionen}
+		\begin{method}{Partielle Integration}
+			$$\int \frac{p(x)}{q(x)} dx$$
+			Wenn nun $\deg(p) \geq \deg(q)$ dann machen wir eine Polynomdivision $p:q$, sonst mache eine Parzialbruchzerlegung
+		\end{method}
+		
+		\subsection*{Substitutionsregel}
+		\begin{method}{Substitutionsregel}
+			Ist $f$ stetig und $g$ erfüllt:
+			\begin{align*}
+				y = g(x) \iff x = g^{-1}(y)
+			\end{align*}
+			Dann gilt:
+			\begin{align*}
+				\int_a ^b f(g(x))g'(x) dx &= \int_{g(a)}^{g(b)} f(y) dy
+			\end{align*}
+			Als Merksatz gilt $dy = g'(x) dx$ respektive $dx = \frac{1}{t} dt$
+		\end{method}
+		
+		\subsubsection*{Integrale der Form $\int F(e^x, \sinh(x), \cosh(x)) dx$}
+		Substituiere mit $e^x = t$, ($dx = \frac{1}{t} dt$)\\
+		\textbf{Beispiel:}
+		\begin{align*}
+			\int \frac{e^{2x}}{e^x + 1} dx &= \int \frac{t^2}{t + 1 } \frac{1}{t} dt = \int\frac{t +1 - 1}{t+1} dt\\
+			\int \frac{1}{\cosh(x)} dx &= \int \frac{1}{\frac{1}{2} (e^x + e^{-x})} dx = \int \frac{2}{t + \frac{1}{t}} \frac{1}{t} dt = \frac{2}{t^2 + 1} dt
+		\end{align*}
+		
+		\subsubsection*{Integrale der Form $\int F(\log(x)) dx$}
+		Substituiere mit $\log(x) = t$, ($dx = e^t dt$)\\
+		\textbf{Beispiel:}
+		\begin{align*}
+			\int (\log(x))^2 dx &= \int t^2 e^t dt = t^2 e^t - \int 2t e^t dt  \\
+			&= x(\log(x))^2 -2x\log(x) + 2x + C
+		\end{align*}
+		
+		\subsubsection*{Integrale der Form $\int F(\sqrt[\alpha]{Ax + B}) dx$}
+		Substituiere mit $t = \sqrt[\alpha]{Ax + B}$\\
+		\textbf{Beispiel:}
+		\begin{align*}
+			\int \frac{1}{\sqrt{x} \sqrt{1-x}} &= \int \frac{1}{t \sqrt{1-t^2}} 2t dt = \int \frac{2}{\sqrt{1-t^2}}
+		\end{align*}
+		
+		\subsubsection*{Integrale die $\sin, \cos, \tan$ in geraden Potenzen enthalten}
+		Substituiere mit $\tan(x) = t$, ($dx = \frac{1}{1+t^2} dt$). Es gilt zudem:
+		
+		\begin{align*}
+			\sin^2(x) &= \frac{t^2}{1+t^2} & \cos^2(x) &= \frac{1}{1+t^2}
+		\end{align*}
+		
+		\subsubsection*{Integrale die $\sin, \cos, \tan$ in ungeraden Potenzen enthalten}
+		Substituiere mit $\tan(\frac{x}{2}) = t$, ($dx = \frac{2}{1+t^2} dt$). Es gilt zudem:
+		
+		\begin{align*}
+			\sin(x) &= \frac{2t}{1+t^2} & \cos(x) &= \frac{1-t^2}{1+t^2}
+		\end{align*}
+		
+		
+		
+		\subsubsection*{Integrale mit $\sqrt{Ax^2 + Bx + C}$ im Nenner}
+		Mithilfe quadratischer Ergänzung auf einen der folgenden Fälle zurückführen:
+		\begin{align*}
+			\int \frac{1}{\sqrt{1-x^2}} dx &= \arcsin(x) + C\\
+			\int \frac{1}{\sqrt{x^2-1}} dx &= \operatorname{arcosh}(x) + C\\
+			\int \frac{1}{\sqrt{1+x^2}} dx &= \operatorname{arcsinh}(x) + C
+		\end{align*}
+		
+		
+		
+		
+		\subsubsection*{Integrale mit $\sqrt{Ax^2 + Bx + C}$ im Zähler}
+		Mithilfe quadratischer Ergänzung auf einen der folgenden Fälle zurückführen, dann substituieren
+		\begin{align*}
+			\int {\sqrt{1-x^2}} dx \quad &\text{subsitution: } x = \sin(t) \Leftarrow dx = \cos(t) dt\\
+			\int {\sqrt{x^2-1}} dx \quad &\text{subsitution: } x = \cosh(t) \Leftarrow dx = \sinh(t) dt \\
+			\int {\sqrt{1+x^2}} dx \quad &\text{subsitution: } x = \sinh(t) \Leftarrow dx = \cosh(t) dt
+		\end{align*}
+		
+		
+		
+		
+		
+		
+		
+		
+		% -------------------------- Sonstiges --------------------------
+		
+		
+		
+		
+		
+		\section*{Sonstiges}
+		\begin{method}{Binomialsatz}
+			$\forall x,y \in \mathbb{C}$, $n \geq 1$ gilt:
+			$$(x+y)^n = \sum_{k=0}^{n} \binom{n}{k}x^k y^{n-k}$$
+		\end{method}
+		
+		
+		\begin{method}{Binomialkoeffizienten}
+			\begin{align*}
+				\binom{n}{k} &= \frac{n!}{(n-k)!k!}
+			\end{align*}
+		\end{method}
+		
+		\begin{method}{ABC / Mitternachtsformel}
+			\begin{align*}
+				\text{Gegeben: } & ax^2 + bx + c = 0\\
+				\text{Lösung: } & x_{1,2} = \frac{-b \pm \sqrt{b^2 -4ac}}{2a}
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Logarithmus Regeln}
+			\begin{align*}
+				\log _{b}(x\cdot y) &= \log _{b}(x)+\log _{b}(y)\\
+				\log_{b} (M^k) &= k \cdot \log_b (M)
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Summenformeln}
+			\begin{align*}
+				\sum _{{k=1}}^{n}k &= {\frac  {n(n+1)}{2}}\\
+				\sum_{k=1}^n (2k-1) &= n^2\\
+				\sum _{{k=1}}^{n}k^{2} &= {\frac  {n(n+1)(2n+1)}{6}}
+			\end{align*}
+		\end{method}
+		
+		
+		\begin{method}{Gerade \& Ungerade Funktion}
+			Eine Funktion heisst:
+			\begin{itemize}
+				\item \textsc{Gerade} wenn $f(-x) = f(x)$
+				\item \textsc{Ungerade} wenn $f(-x) = - f(x)$
+			\end{itemize}
+			Dabei sind $f(x) = 1$, $f(x) = |x|$, $f(x)=x^2$, $f(x) = \cos(x)$ alles gerade Funktionen.\\
+			Im Gegenzug sind $f(x) = sgn(x)$, $f(x) = x$, $f(x) = \tan(x)$, $f(x) = \sin(x)$ ungerade Funktionen.
+		\end{method}
+		
+		
+		\begin{method}{Injektiv}
+			\begin{align*}
+				&\forall x_1,x_2 \in M : f(x_1) = f(x_2) \implies x_1 = x_2\\
+				\text{or }  &x_1 \not = x_2 \implies f(x_1) \not = f(x_2)
+			\end{align*}
+			\textbf{Surjektiv}
+			\begin{align*}
+				\forall y \in N  \ \exists x \in M : y = f(x)
+			\end{align*}
+		\end{method}
+		
+		\textbf{Umkehrsatz - Beispiel} Zeige dass $x + e^x$ bijektiv von $\R$ auf $\R$ abbildet. Es gilt $f'(x) = 1 + e^x > 0$, somit ist $f$ streng monoton wachsend in $\R$ und Umkehrbar. Weil $\lim_{x \to -\infty} f(x) = - \infty$ und $\lim_{x \to \infty} f(x) = \infty$ ist $f$ bijektiv von $\R$ nach $\R$
+		
+		
+		
+		\begin{method}{Kreuzprodukt}
+			\begin{align*}
+				\vec{a}\times\vec{b}=	\begin{pmatrix}a_1 \\ a_2 \\ a_3\end{pmatrix}
+				\times
+				\begin{pmatrix}b_1 \\ b_2 \\ b_3 \end{pmatrix} &=	\begin{pmatrix}
+					a_2b_3 - a_3b_2 \\
+					a_3b_1 - a_1b_3 \\
+					a_1b_2 - a_2b_1
+				\end{pmatrix}
+			\end{align*}
+		\end{method}
+		
+		\newpage
+		
+		\subsection*{Wichtige Integrale}
+		
+		\begin{itemize}	
+			
+			\item ${\displaystyle \int \sin ^{2}{ax}\,dx={\frac {x}{2}}-{\frac {1}{4a}}\sin 2ax+C={\frac {x}{2}}-{\frac {1}{2a}}\sin ax\cos ax+C}$
+			
+			\item ${\displaystyle \int \sin ^{n}{ax}\,dx=-{\frac {\sin ^{n-1}ax\cos ax}{na}}+{\frac {n-1}{n}}\int \sin ^{n-2}ax\,dx\qquad {\mbox{(for }}n>0{\mbox{)}}}$
+			
+			\item ${\displaystyle {\begin{aligned}\int x^{n}\sin ax\,dx&=-{\frac {x^{n}}{a}}\cos ax+{\frac {n}{a}}\int x^{n-1}\cos ax\,dx\end{aligned}}}$
+			
+			\item ${\displaystyle \int \cos ^{2}{ax}\,dx={\frac {x}{2}}+{\frac {1}{4a}}\sin 2ax+C={\frac {x}{2}}+{\frac {1}{2a}}\sin ax\cos ax+C}$
+			
+			\item ${\displaystyle \int \cos ^{n}ax\,dx={\frac {\cos ^{n-1}ax\sin ax}{na}}+{\frac {n-1}{n}}\int \cos ^{n-2}ax\,dx\qquad {\mbox{(for }}n>0{\mbox{)}}}$
+			
+			\item ${\displaystyle {\begin{aligned}\int x^{n}\cos ax\,dx&={\frac {x^{n}\sin ax}{a}}-{\frac {n}{a}}\int x^{n-1}\sin ax\,dx\end{aligned}}}$
+			
+			
+			
+			
+			
+			\item ${\displaystyle \int (\sin ax)(\cos ax)\,dx={\frac {1}{2a}}\sin ^{2}ax+C}$
+			
+			\item ${\displaystyle \int (\sin ^{n}ax)(\cos ax)\,dx={\frac {1}{a(n+1)}}\sin ^{n+1}ax+C\qquad {\mbox{(for }}n\neq -1{\mbox{)}}}$
+			
+			\item ${\displaystyle \int (\sin ax)(\cos ^{n}ax)\,dx=-{\frac {1}{a(n+1)}}\cos ^{n+1}ax+C\qquad {\mbox{(for }}n\neq -1{\mbox{)}}}$
+			
+			\item $ {\displaystyle {\begin{aligned}\int (\sin ^{n}ax)(\cos ^{m}ax)\,dx&=-{\frac {(\sin ^{n-1}ax)(\cos ^{m+1}ax)}{a(n+m)}}\\&+{\frac {n-1}{n+m}}\int (\sin ^{n-2}ax)(\cos ^{m}ax)\,dx\qquad {\mbox{(for }}m,n>0{\mbox{)}}\end{aligned}}} $
+			
+			\item $\int \sin^2(x) \cos^2(x) dx = \frac{1}{4}\int sin^2(2x) dx = \frac{1}{4} \int \frac{1-\cos(4x)}{2}dx = \frac{x}{8} - \frac{1}{8} \frac{\sin(4x)}{4} + C$  
+			
+		\end{itemize}
+		
+		
+		
+		\subsubsection*{Typische Integrale}
+		
+		\begin{itemize}
+			\item $\int \frac{1}{x} \,dx = \ln |x|$
+			\item $\int \frac{1}{x^2} \,dx = -\frac{1}{x}$
+			\item $\int \frac{1}{x+a} \,dx = \ln |x+a|$
+			\item $\int \ln(x) \,dx = x(\ln(x) - 1)$
+			\item $\int \ln(ax + b) \,dx = \frac{(a x+b) \ln (a x+b)-a x}{a}$
+			\item $\int \frac{1}{(x+a)^2} \,dx = - \frac{1}{x+a}$
+			\item $\int \frac{1}{\sqrt{x}} \,dx = 2 \sqrt{x}$
+			\item $\int \sqrt{1-x^2} dx = \frac{\arcsin(x) + x \sqrt{1-x^2}}{2} + C$
+			\item $\int \frac{1}{ax+b} \,dx = \frac{1}{a} \ln |ax+b|$
+			\item $\int \frac{1}{1 + x^2} \,dx = \frac{1}{2} \ln |1 + x^2|$
+			\item $\int(ax + b)^n \,dx = \frac{(ax + b)^{n+1}}{(n + 1)a}, (n \neq -1)$
+			\item $\int x(ax+b)^n \,dx = \frac{(ax + b)^{n+2}}{(n+2)a^2} -
+			\frac{b(ax+b)^{n+1}}{(n+1)a^2}$
+			\item $\int \frac{ax + b}{px + q} \,dx = \frac{ax}{p} + \frac{bp - aq}{p^2} \ln
+			|pq+q|$
+			\item $\int \frac{1}{a^2 + x^2} \,dx = \frac{1}{a} \arctan(\frac{x}{a})$
+			\item $\int \frac{1}{a^2 - x^2} \,dx = \frac{1}{2a} \ln \left | \frac{a+x}{a-x}
+			\right |$
+			\item $\int \sqrt{x} \,dx = \frac{2}{3}\sqrt{x^3}$
+			%mühsamer kerl der teilweise in prüfungen verwendet wird. Kann man über subsitution von x mit sin(u) lösen.
+			\item $\int \sqrt{1-x^2} \,dx = \frac{1}{2}\left( x\sqrt{1-x^2}+\frac{1}{\sin(x)} \right)$
+			\item $\int a^{xb + c} \,dx = \frac{a^{bx + c}}{b \log(a)}$
+		\end{itemize}
+		
+		\subsubsection*{Trionometrische Funktionen}
+		\begin{itemize}
+			\item $\int \sin(ax) \,dx = -\frac{1}{a}\cos(ax)$
+			\item $\int \cos(ax) \,dx = \frac{1}{a}\sin(ax)$
+			\item $\int \sin(ax)^2 \,dx = \frac{x}{2} - \frac{sin(2ax)}{4a}$
+			\item $\int \frac{1}{\sin^2 x} \,dx = -\cot x$
+			\item $\int x \sin(ax) \,dx = \frac{\sin(ax)}{a^2} - \frac{x \cos(ax)}{a}$
+			\item $\int \cos^2(ax) \,dx = \frac{x}{2} + \frac{\sin(2ax)}{4a}$
+			\item $\int \frac{1}{\cos^2(x)} \,dx = \tan x$
+			\item $\int \cos(ax) \,dx = \frac{\cos(ax)}{a^2} + \frac{x \sin(ax)}{a}$
+			\item $\int \sin(ax) \cos(ax) \,dx = -\frac{\cos^2(ax)}{2a}$
+			\item $\int \tan(ax) \,dx = - \frac{1}{a} \ln | \cos(ax) |$
+		\end{itemize}
+		
+		\subsubsection*{Exponentialfunktion}
+		\begin{itemize}
+			\item $\int e^{ax} \,dx = \frac{1}{a} e^{ax}$ 
+			\item $\int x e^{ax} \,dx = e^{ax} \cdot \left ( \frac{ax - 1}{a^2} \right )$
+			\item $\int x \ln(x) \,dx = \frac{1}{2} x^2 (\ln(x) - \frac{1}{2})$
+			\item $\int_{-\infty}^\infty e^{-\frac{1}{a}x^2} \,dx = \sqrt{a \pi}$
+		\end{itemize}
+		
+		
+		
+		
+		\subsection*{Vektoranalysis}
+		
+		\begin{align*}
+			{\displaystyle \Delta f=\operatorname {div} \left(\operatorname {grad} \,f\right),}\\
+			{\displaystyle \Delta f=\nabla \cdot (\nabla f)=(\nabla \cdot \nabla )f=\nabla ^{2}f.}\\
+			\nabla f = \begin{pmatrix}
+				\frac{\partial }{\partial x}\\
+				\frac{\partial }{\partial y}\\
+				\frac{\partial }{\partial z}
+			\end{pmatrix} \cdot f
+		\end{align*}
+		
+		
+		\begin{thm}{Integral der Normalverteilung}
+			\begin{align*}
+				\int_{-\infty}^{\infty} e^{-a(x+b)^2} \ dx = \sqrt{\frac{\pi}{a}}
+			\end{align*}
+		\end{thm}
+		
+		
+		
+		
+		\vfill\null
+		\columnbreak
+		
+		% to have more vertical space in the table.
+		
+		{\renewcommand{\arraystretch}{1.5}
+			\begin{table}[]
+				\begin{tabular}{@{} p{.25\textwidth} p{.3\textwidth} p{.45\textwidth} @{}}
+					\toprule
+					Funktion & Ableitung & Bemerkung / Regel\\ \midrule
+					$x$ & $1$ &   \\
+					$x^2$& $2x$ &   \\
+					$x^n$& $n\cdot x^{n-1}$ & $n \in \R$  \\
+					$\frac{1}{x} = x^{-1}$ & $- \frac{1}{x^2}$ & \\
+					$\sqrt{x} = x^{\frac{1}{2}}$ & $\frac{1}{2\sqrt{x}}$ & \\ 
+					$\sqrt[n]{x} = x^{\frac{1}{n}}$ & $\frac{x^{\frac{1}{n} -1 }}{n}$ &  $\int x^{1/n} dx = \frac{n x^{1/n + 1}}{n+1} + C$\\ 
+					$e^x$ & $e^x$ & \\
+					$a^x$ & $\ln(a) \cdot a^x$& \\
+					$x^x = e^{x\log(x)}$ & $x^x \cdot (\log(x) + 1)$ & Kettenregel $e^{x\log(x)}$\\
+					$\ln(x)$ & $\frac{1}{x}$ & \\
+					$x\ln(x) - x$ & $\ln(x)$ &  \\ \midrule
+					$\sin(x)$ & $\cos(x)$ & \\
+					$\cos(x)$ & $- \sin(x)$ & \\ 
+					$\tan(x) = \frac{\sin(x)}{\cos(x)}$ & $\frac{1}{\cos^2(x)} = 1 + \tan^2(x)$ &\\
+					$\cot(x) = \frac{\cos(x)}{\sin(x)}$ & - $\frac{1}{\sin^2(x)}$ & \\ 
+					$\arcsin(x)$ & $\frac{1}{\sqrt{1 - x^2}}$ & $ \arcsin : [-1,1] \to [-\frac{\pi}{2},\frac{\pi}{2}]$\\
+					$\arccos(x)$ & $ - \frac{1}{\sqrt{1-x^2}}$ & $\arccos : [-1,1] \to [0, \pi]$\\
+					$\arctan(x)$ & $\frac{1}{1+x^2}$ & $\arctan:(-\infty, \infty) \to (- \frac{\pi}{2},\frac{\pi}{2})$\\
+					$\operatorname{arccot}(x)$ & $ - \frac{1}{1+x^2} $ & $\operatorname{arccot} : (-\infty, \infty) \to (0,\pi)$\\
+					\midrule
+					$\cosh(x)$ & $\sinh(x)$ &\\
+					$\sinh(x)$ & $\cosh(x)$ & \\
+					$\tanh(x)$ & $\frac{1}{\cosh^2(x)}$ & \\
+					$\operatorname{arsinh}(x)$ & $\frac{1}{\sqrt{1+x^2}}$ & $\forall x \in R$\\
+					$\operatorname{arcosh}(x)$ & $\frac{1}{\sqrt{x^2 - 1}}$ & $\forall x \in (1, \infty)$\\		  $\operatorname{artanh}(x)$ & $\frac{1}{1-x^2}$ & $\forall x \in (-1,1)$\\
+					\midrule
+					$g(x) \cdot h(x)$ & $g(x) \cdot h'(x) + g'(x) \cdot h(x)$ & Produktregel\\
+					$\left(g(x)\right)^n$ & $n \cdot \left( g(x) \right)^{n-1} \cdot g'(x)$ & Potenzregel\\
+					$\frac{g(x)}{h(x)}$ & $\frac{ g'(x) \cdot h(x) - g(x)\cdot h'(x)}{\left(h(x)\right) ^2}$ & Quotientenregel\\
+					$h(g(x))$ & $h'(g(x)) \cdot g'(x)$ & Kettenregel\\
+					\bottomrule
+				\end{tabular}
+			\end{table}
+		}
+		
+		
+		
+		
+		
+	\end{multicols}
+\end{document}
