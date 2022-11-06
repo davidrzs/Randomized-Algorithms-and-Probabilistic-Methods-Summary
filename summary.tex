@@ -212,6 +212,41 @@ Assume we have an array $a[n]$. We randomly sample $\lceil n^{\frac{3}{4}} \rcei
 		
 		\textbf{Example (Routing in the Hypercube)} Every vertex $v$ chooses a random vertex $\sigma(v_i)$ to which the vertex sends using bit fixing. After $4d$ rounds the random vertex sends to original destination. 
 		
+		
+		\section{Negative Correlation}
+		
+		\begin{method}{Negatively Correlated}
+			Let $X_1, \ldots, X_n$ be Bernoulli random variables that are pairwise negatively correlated (i.e. $\E[X_i X_j] \leq\E[X_i] \cdot \E[X_j] $), then $X = \sum_{i=1}^{n} X_i$ satisfies
+			\begin{align*}
+				\Var[X] \leq \E[X]
+				\end{align*}
+		\end{method}
+		It follows that the first and second moment method are very easy to apply
+		\begin{thm}{Moment Methods Applied}
+Let $(Z_n)_n$ be a sequence of random variables such that each $Z_i$ is the sum of of pairwise negatively correlated Bernoulli random variables then
+\begin{align*}
+	\E[Z_n] \to 0 &\implies \Pr[Z_n = 0] \to 1\\
+	\E[Z_n] \to \infty &\implies \Pr[Z_n = 0] \to 0
+\end{align*}
+		\end{thm}	
+	
+	\begin{defn}{Negatively Associated}
+	Random variables $X_1, \ldots, X_n$ are said to be negatively associated iff. for every two disjoint subsets $I,J \subseteq \{1,\ldots,n\}$ and every two functions $f:\R^{|I|} \to \R$ and $g:\R^{|J|} \to \R$ that are either both componentwise increasing or decreasing (not necessarily strictly) we have 
+	\begin{align*}
+		\E[f(X_i, i\in I) \cdot g(X_i, i\in J) ]\leq \E[f(X_i, i\in I)] \cdot \E[g(X_i, i\in J)]
+	\end{align*}
+	\end{defn}
+	
+	\begin{method}{Chernoff for Negatively Associated}
+		The Chernoff bounds also hold or negatively associated random variables.
+	\end{method}
+
+\begin{method}{Bernoulli Negatively Associated}
+	For $X_1, \ldots, X_n$ Bernoulli random variables with $\sum_{i=1}^{n} X_i \equiv 1$ the variables $X_1,\ldots, X_n$ are negatively associated.
+\end{method}
+
+	
+	
 		\section{Inequalities of Azuma and Jansson}
 	
 		\begin{defn}{Effect}
@@ -237,6 +272,34 @@ Any vertex either is in the indepdendet set or has a neighbor in it. But no two 
 		
 		\newpage
 		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		\section{Wahrscheinlichkeitsrechnung}
 		
 		\begin{method}{Wahrscheinlichkeitsraum}
